@@ -1,11 +1,13 @@
 package pl.com.dariusz.giza.warehouse.service;
 
+import org.springframework.stereotype.Service;
 import pl.com.dariusz.giza.warehouse.domain.User;
 import pl.com.dariusz.giza.warehouse.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -24,4 +26,5 @@ public class UserServiceImpl implements UserService {
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
+
 }

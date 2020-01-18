@@ -25,8 +25,8 @@ public class BootStrapData {
 
     @EventListener(ApplicationReadyEvent.class)
     public void get() {
-        User user = new User("user@gmail.com", passwordEncoder().encode("user"), "ROLE_USER");
-        User admin = new User("admin@gmail.com", passwordEncoder().encode("admin"), "ROLE_ADMIN");
+        User user = new User("user", passwordEncoder().encode("user"), "ROLE_USER");
+        User admin = new User("admin", passwordEncoder().encode("admin"), "ROLE_ADMIN");
         userRepository.save(user);
         userRepository.save(admin);
 
