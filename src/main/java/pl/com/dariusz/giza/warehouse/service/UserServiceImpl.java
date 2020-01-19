@@ -1,5 +1,6 @@
 package pl.com.dariusz.giza.warehouse.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.com.dariusz.giza.warehouse.domain.User;
 import pl.com.dariusz.giza.warehouse.repositories.UserRepository;
@@ -25,6 +26,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User saveUser(User user) {
+        setPassword(user);
+        return userRepository.save(user);
+    }
+
+    private void setPassword(User user) {
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
     }
 
 }

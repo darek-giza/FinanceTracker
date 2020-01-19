@@ -11,4 +11,6 @@ public interface UserService {
 
     List<User> findAllUsers();
 
+    User saveUser(User user);
+
 }
