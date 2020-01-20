@@ -39,51 +39,49 @@ public class BootStrapData {
         User admin = new User("admin", passwordEncoder().encode("admin"), "ROLE_ADMIN");
         userRepository.save(user);
         userRepository.save(admin);
-
     }
-
     @EventListener(ApplicationReadyEvent.class)
     public void fillBudgets() {
-        Budgets budget = new Budgets(new BigDecimal(1000),fillRevenues(),fillExpenses());
+        Budget budget = new Budget(new BigDecimal(1000), fillRevenues(), fillExpenses());
         budgetsRepository.save(budget);
     }
 
-    public List<Revenues> fillRevenues() {
-        List<Revenues> revenuesList = new ArrayList<>();
-        Revenues revenue1 = new Revenues(new BigDecimal(5000), "Salary1", LocalDate.now());
-        Revenues revenue2 = new Revenues(new BigDecimal(3000), "Salary2", LocalDate.now());
-        revenuesList.add(revenue1);
-        revenuesList.add(revenue2);
-        return revenuesList;
+    public List<Income> fillRevenues() {
+        List<Income> incomeList = new ArrayList<>();
+        Income revenue1 = new Income(new BigDecimal(5000), "Salary1", LocalDate.now());
+        Income revenue2 = new Income(new BigDecimal(3000), "Salary2", LocalDate.now());
+        incomeList.add(revenue1);
+        incomeList.add(revenue2);
+        return incomeList;
     }
 
-    public List<Expenses> fillExpenses() {
-        List<Expenses> expensesList = new ArrayList<>();
-        Expenses expenses1 = new Expenses(ExpensesType.CHILDREN, new BigDecimal(200), "Books", LocalDate.now());
-        Expenses expenses2 = new Expenses(ExpensesType.EAT, new BigDecimal(100), "Diner", LocalDate.now());
-        Expenses expenses3 = new Expenses(ExpensesType.EAT, new BigDecimal(150), "Lunch", LocalDate.now());
-        Expenses expenses4 = new Expenses(ExpensesType.CLOTHES, new BigDecimal(100), "T-shirt", LocalDate.now());
-        Expenses expenses5 = new Expenses(ExpensesType.TRANSPORT, new BigDecimal(50), "Taxi", LocalDate.now());
-        Expenses expenses6 = new Expenses(ExpensesType.TRANSPORT, new BigDecimal(20), "Bus", LocalDate.now());
-        Expenses expenses7 = new Expenses(ExpensesType.ENTERTAINMENT, new BigDecimal(100), "Party", LocalDate.now());
-        Expenses expenses8 = new Expenses(ExpensesType.HEALTH, new BigDecimal(100), "Survey", LocalDate.now());
-        Expenses expenses9 = new Expenses(ExpensesType.FLAT, new BigDecimal(100), "Electricity", LocalDate.now());
-        Expenses expenses10 = new Expenses(ExpensesType.HYGIENE, new BigDecimal(20), "Cosmetics", LocalDate.now());
-        Expenses expenses11 = new Expenses(ExpensesType.OTHER, new BigDecimal(100), "Other", LocalDate.now());
-        Expenses expenses12 = new Expenses(ExpensesType.REPAYMENT, new BigDecimal(100), "Home loan", LocalDate.now());
-        expensesList.add(expenses1);
-        expensesList.add(expenses2);
-        expensesList.add(expenses3);
-        expensesList.add(expenses4);
-        expensesList.add(expenses5);
-        expensesList.add(expenses6);
-        expensesList.add(expenses7);
-        expensesList.add(expenses8);
-        expensesList.add(expenses9);
-        expensesList.add(expenses10);
-        expensesList.add(expenses11);
-        expensesList.add(expenses12);
-        return expensesList;
+    public List<Expense> fillExpenses() {
+        List<Expense> expenseList = new ArrayList<>();
+        Expense expense1 = new Expense(ExpensesType.CHILDREN, new BigDecimal(200), "Books", LocalDate.now());
+        Expense expense2 = new Expense(ExpensesType.EAT, new BigDecimal(100), "Diner", LocalDate.now());
+        Expense expense3 = new Expense(ExpensesType.EAT, new BigDecimal(150), "Lunch", LocalDate.now());
+        Expense expense4 = new Expense(ExpensesType.CLOTHES, new BigDecimal(100), "T-shirt", LocalDate.now());
+        Expense expense5 = new Expense(ExpensesType.TRANSPORT, new BigDecimal(50), "Taxi", LocalDate.now());
+        Expense expense6 = new Expense(ExpensesType.TRANSPORT, new BigDecimal(20), "Bus", LocalDate.now());
+        Expense expense7 = new Expense(ExpensesType.ENTERTAINMENT, new BigDecimal(100), "Party", LocalDate.now());
+        Expense expense8 = new Expense(ExpensesType.HEALTH, new BigDecimal(100), "Survey", LocalDate.now());
+        Expense expense9 = new Expense(ExpensesType.FLAT, new BigDecimal(100), "Electricity", LocalDate.now());
+        Expense expense10 = new Expense(ExpensesType.HYGIENE, new BigDecimal(20), "Cosmetics", LocalDate.now());
+        Expense expense11 = new Expense(ExpensesType.OTHER, new BigDecimal(100), "Other", LocalDate.now());
+        Expense expense12 = new Expense(ExpensesType.REPAYMENT, new BigDecimal(100), "Home loan", LocalDate.now());
+        expenseList.add(expense1);
+        expenseList.add(expense2);
+        expenseList.add(expense3);
+        expenseList.add(expense4);
+        expenseList.add(expense5);
+        expenseList.add(expense6);
+        expenseList.add(expense7);
+        expenseList.add(expense8);
+        expenseList.add(expense9);
+        expenseList.add(expense10);
+        expenseList.add(expense11);
+        expenseList.add(expense12);
+        return expenseList;
     }
 
 }
