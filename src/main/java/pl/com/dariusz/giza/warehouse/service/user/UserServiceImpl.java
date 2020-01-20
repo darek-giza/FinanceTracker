@@ -1,8 +1,8 @@
-package pl.com.dariusz.giza.warehouse.service;
+package pl.com.dariusz.giza.warehouse.service.user;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.com.dariusz.giza.warehouse.domain.User;
+import pl.com.dariusz.giza.warehouse.domain.user.User;
 import pl.com.dariusz.giza.warehouse.repositories.UserRepository;
 
 import java.util.List;

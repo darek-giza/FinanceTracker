@@ -1,4 +1,4 @@
-package pl.com.dariusz.giza.warehouse.domain;
+package pl.com.dariusz.giza.warehouse.domain.budgets;
 
 public enum ExpensesType {
 

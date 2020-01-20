@@ -1,4 +1,4 @@
-package pl.com.dariusz.giza.warehouse.domain;
+package pl.com.dariusz.giza.warehouse.domain.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

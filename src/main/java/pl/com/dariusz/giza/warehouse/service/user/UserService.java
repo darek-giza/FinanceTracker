@@ -1,6 +1,6 @@
-package pl.com.dariusz.giza.warehouse.service;
+package pl.com.dariusz.giza.warehouse.service.user;
 
-import pl.com.dariusz.giza.warehouse.domain.User;
+import pl.com.dariusz.giza.warehouse.domain.user.User;
 
 import java.util.List;
 import java.util.Optional;

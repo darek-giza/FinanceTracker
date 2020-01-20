@@ -1,4 +1,4 @@
-package pl.com.dariusz.giza.warehouse.service;
+package pl.com.dariusz.giza.warehouse.service.user;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

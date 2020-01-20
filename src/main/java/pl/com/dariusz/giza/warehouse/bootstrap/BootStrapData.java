@@ -6,7 +6,11 @@ import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import pl.com.dariusz.giza.warehouse.domain.*;
+import pl.com.dariusz.giza.warehouse.domain.budgets.Budget;
+import pl.com.dariusz.giza.warehouse.domain.budgets.Expense;
+import pl.com.dariusz.giza.warehouse.domain.budgets.ExpensesType;
+import pl.com.dariusz.giza.warehouse.domain.budgets.Income;
+import pl.com.dariusz.giza.warehouse.domain.user.User;
 import pl.com.dariusz.giza.warehouse.repositories.BudgetsRepository;
 import pl.com.dariusz.giza.warehouse.repositories.UserRepository;
 

@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.com.dariusz.giza.warehouse.service.UserDetailsServiceImpl;
+import pl.com.dariusz.giza.warehouse.service.user.UserDetailsServiceImpl;
 
 
 @Configuration

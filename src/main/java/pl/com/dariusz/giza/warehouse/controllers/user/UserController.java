@@ -1,10 +1,10 @@
-package pl.com.dariusz.giza.warehouse.controllers;
+package pl.com.dariusz.giza.warehouse.controllers.user;
 
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.com.dariusz.giza.warehouse.domain.User;
-import pl.com.dariusz.giza.warehouse.service.UserService;
+import pl.com.dariusz.giza.warehouse.domain.user.User;
+import pl.com.dariusz.giza.warehouse.service.user.UserService;
 
 import java.util.List;
 import java.util.Optional;
