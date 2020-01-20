@@ -10,7 +10,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class Budget implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,15 +20,15 @@ public class Budget implements Serializable {
 
     private BigDecimal balance;
 
-    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
-    private List<Income> revenues;
+    @OneToMany(mappedBy = "budget")
+    private List<Income> incomes;
 
-    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "budget")
     private List<Expense> expense;
 
-    public Budget(BigDecimal balance, List<Income> revenues, List<Expense> expense) {
+    public Budget(BigDecimal balance, List<Income> incomes, List<Expense> expense) {
         this.balance = balance;
-        this.revenues = revenues;
+        this.incomes = incomes;
         this.expense = expense;
     }
 }
