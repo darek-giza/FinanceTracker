@@ -44,18 +44,14 @@ public class BootStrapData {
 
     @EventListener(ApplicationReadyEvent.class)
     public void get() {
-        User user = new User("user", passwordEncoder().encode("user"), "ROLE_USER");
-        User admin = new User("admin", passwordEncoder().encode("admin"), "ROLE_ADMIN");
-        userRepository.save(user);
-        userRepository.save(admin);
-    }
-
-    @EventListener(ApplicationReadyEvent.class)
-    public void fillIncome() {
-        Budget budget = new Budget(new BigDecimal(1250), null, null);
+        Budget budget = new Budget(new BigDecimal(1250), null, null, null);
         budgetsRepository.save(budget);
         incomeRepository.saveAll(fillIncomes(budget));
         expenseRepository.saveAll(fillExpenses(budget));
+        User user = new User("user", passwordEncoder().encode("user"), "ROLE_USER", budget);
+        User admin = new User("admin", passwordEncoder().encode("admin"), "ROLE_ADMIN", null);
+        userRepository.save(user);
+        userRepository.save(admin);
     }
 
     public List<Income> fillIncomes(Budget budget) {

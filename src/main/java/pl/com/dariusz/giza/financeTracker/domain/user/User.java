@@ -1,13 +1,21 @@
 package pl.com.dariusz.giza.financeTracker.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class User implements UserDetails {
 
@@ -21,38 +29,16 @@ public class User implements UserDetails {
 
     private String role;
 
-    public User() {
-    }
+    @OneToOne
+    @JoinColumn
+    private Budget budget;
 
-    public User(String username, String password, String role) {
+    public User(String username, String password, String role, Budget budget) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.budget = budget;
 
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     @Override

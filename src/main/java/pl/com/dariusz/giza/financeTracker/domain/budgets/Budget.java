@@ -1,8 +1,10 @@
 package pl.com.dariusz.giza.financeTracker.domain.budgets;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.com.dariusz.giza.financeTracker.domain.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,9 +28,14 @@ public class Budget implements Serializable {
     @OneToMany(mappedBy = "budget")
     private List<Expense> expense;
 
-    public Budget(BigDecimal balance, List<Income> incomes, List<Expense> expense) {
+    @JsonIgnore
+    @OneToOne(mappedBy = "budget")
+    private User user;
+
+    public Budget(BigDecimal balance, List<Income> incomes, List<Expense> expense, User user) {
         this.balance = balance;
         this.incomes = incomes;
         this.expense = expense;
+        this.user = user;
     }
 }
