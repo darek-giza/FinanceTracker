@@ -1,6 +1,5 @@
 package pl.com.dariusz.giza.financeTracker.domain.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,6 +1,7 @@
 package pl.com.dariusz.giza.financeTracker.service.Income;
 
 import org.springframework.stereotype.Service;
+import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Income;
 import pl.com.dariusz.giza.financeTracker.repositories.IncomeRepository;
 
@@ -16,7 +17,8 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public Income createIncome(Income income) {
+    public Income createIncome(Income income, Budget budget) {
+        income.setBudget(budget);
         return incomeRepository.save(income);
     }
 
