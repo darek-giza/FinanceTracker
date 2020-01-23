@@ -9,7 +9,7 @@ public interface BudgetService {
 
     Budget findById(Long id);
 
-    Budget createBudgets(Budget budget);
+    Budget createBudgets();
 
     List<Budget> findAll();
 

@@ -41,7 +41,7 @@ public class BootStrapData {
         return new BCryptPasswordEncoder();
     }
 
-    @EventListener(ApplicationReadyEvent.class)
+//    @EventListener(ApplicationReadyEvent.class)
     public void get() {
         Budget budget = new Budget("MyBudget", new BigDecimal(1250), null, null, null);
         budgetsRepository.save(budget);
@@ -49,8 +49,8 @@ public class BootStrapData {
         expenseRepository.saveAll(fillExpenses(budget));
         User admin = new User("admin", passwordEncoder().encode("admin"), "admin@admin.pl",1,null, null);
         User user = new User("user", passwordEncoder().encode("user"), "dg@op.pl",1,null, budget);
-        admin.setRoles(new HashSet<Role>(Arrays.asList(new Role("ROLE_ADMIN"))));
-        user.setRoles(new HashSet<Role>(Arrays.asList(new Role("ROLE_USER"))));
+        admin.setRoles(new ArrayList<>(Arrays.asList(new Role("ROLE_ADMIN")))) ;
+        user.setRoles(new ArrayList<>(Arrays.asList(new Role("ROLE_USER"))));
 
         userRepository.save(admin);
         userRepository.save(user);

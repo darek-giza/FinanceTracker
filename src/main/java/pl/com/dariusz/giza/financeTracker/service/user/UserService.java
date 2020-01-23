@@ -11,6 +11,8 @@ public interface UserService {
 
     List<User> findAllUsers();
 
+    User findUserByUsername(String username);
+
     User saveUser(User user);
 
     User addUser(User user);

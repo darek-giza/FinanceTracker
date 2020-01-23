@@ -11,6 +11,7 @@ import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -33,14 +34,14 @@ public class User implements UserDetails {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private List<Role> roles;
 
 
     @OneToOne
     @JoinColumn
     private Budget budget;
 
-    public User(String username, String password, String email, Integer enabled, Set<Role> roles, Budget budget) {
+    public User(String username, String password, String email, Integer enabled, List<Role> roles, Budget budget) {
         this.username = username;
         this.password = password;
         this.email = email;

@@ -2,14 +2,15 @@ package pl.com.dariusz.giza.financeTracker.controllers.budget;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.user.User;
 import pl.com.dariusz.giza.financeTracker.service.budget.BudgetService;
+import pl.com.dariusz.giza.financeTracker.service.user.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -19,29 +20,27 @@ public class BudgetController {
     public static final String BASE_URL = "/api/budget";
 
     private final BudgetService budgetService;
+    private final UserService userService;
 
     @Autowired
-    public BudgetController(BudgetService budgetService) {
+    public BudgetController(BudgetService budgetService, UserService userService) {
         this.budgetService = budgetService;
+        this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Budget> getAll() {
         return budgetService.findAll();
     }
 
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public Budget saveBudget(@RequestBody Budget budget) {
+    @GetMapping
+    public Budget getOne(Principal principal) {
+        String username = principal.getName();
 
+        final User userByUsername = userService.findUserByUsername(username);
+        final Long id = userByUsername.getBudget().getId();
 
-
-        final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final String userId = ((User) principal).getId().toString();
-
-
-        budgetService.createBudgets(budget);
-        return budget;
+        return budgetService.findById(id);
     }
 
 }

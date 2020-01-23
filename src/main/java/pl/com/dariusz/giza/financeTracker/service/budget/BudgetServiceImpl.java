@@ -24,7 +24,8 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public Budget createBudgets(Budget budget) {
+    public Budget createBudgets() {
+        Budget budget=new Budget();
         return budgetsRepository.save(budget);
 
     }
@@ -41,7 +42,6 @@ public class BudgetServiceImpl implements BudgetService {
         BigDecimal increase = currentBudget.get().getBalance().add(income.getAmount());
         currentBudget.get().setBalance(increase);
         return budgetsRepository.save(currentBudget.get());
-
 
     }
 }
