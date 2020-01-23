@@ -10,16 +10,13 @@ import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.ExpensesType;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Income;
+import pl.com.dariusz.giza.financeTracker.domain.user.Role;
 import pl.com.dariusz.giza.financeTracker.domain.user.User;
-import pl.com.dariusz.giza.financeTracker.repositories.BudgetsRepository;
-import pl.com.dariusz.giza.financeTracker.repositories.ExpenseRepository;
-import pl.com.dariusz.giza.financeTracker.repositories.IncomeRepository;
-import pl.com.dariusz.giza.financeTracker.repositories.UserRepository;
+import pl.com.dariusz.giza.financeTracker.repositories.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class BootStrapData {
@@ -28,13 +25,15 @@ public class BootStrapData {
     private BudgetsRepository budgetsRepository;
     private IncomeRepository incomeRepository;
     private ExpenseRepository expenseRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
-    public BootStrapData(UserRepository userRepository, BudgetsRepository budgetsRepository, IncomeRepository incomeRepository, ExpenseRepository expenseRepository) {
+    public BootStrapData(UserRepository userRepository, BudgetsRepository budgetsRepository, IncomeRepository incomeRepository, ExpenseRepository expenseRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.budgetsRepository = budgetsRepository;
         this.incomeRepository = incomeRepository;
         this.expenseRepository = expenseRepository;
+        this.roleRepository = roleRepository;
     }
 
 
@@ -44,14 +43,19 @@ public class BootStrapData {
 
     @EventListener(ApplicationReadyEvent.class)
     public void get() {
-        Budget budget = new Budget(new BigDecimal(1250), null, null, null);
+        Budget budget = new Budget("MyBudget", new BigDecimal(1250), null, null, null);
         budgetsRepository.save(budget);
         incomeRepository.saveAll(fillIncomes(budget));
         expenseRepository.saveAll(fillExpenses(budget));
-        User user = new User("user", passwordEncoder().encode("user"), "ROLE_USER", budget);
-        User admin = new User("admin", passwordEncoder().encode("admin"), "ROLE_ADMIN", null);
-        userRepository.save(user);
+        User admin = new User("admin", passwordEncoder().encode("admin"), "admin@admin.pl",1,null, null);
+        User user = new User("user", passwordEncoder().encode("user"), "dg@op.pl",1,null, budget);
+        admin.setRoles(new HashSet<Role>(Arrays.asList(new Role("ROLE_ADMIN"))));
+        user.setRoles(new HashSet<Role>(Arrays.asList(new Role("ROLE_USER"))));
+
         userRepository.save(admin);
+        userRepository.save(user);
+
+
     }
 
     public List<Income> fillIncomes(Budget budget) {

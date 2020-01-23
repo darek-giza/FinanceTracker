@@ -1,6 +1,7 @@
 package pl.com.dariusz.giza.financeTracker.service.user;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.com.dariusz.giza.financeTracker.domain.user.User;
 import pl.com.dariusz.giza.financeTracker.repositories.UserRepository;
@@ -31,6 +32,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUser(User user) {
         setPassword(user);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User addUser(User user) {
+        String password=user.getPassword();
+        user.setPassword(password);
         return userRepository.save(user);
     }
 

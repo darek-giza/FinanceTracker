@@ -20,6 +20,8 @@ public class Budget implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
     private BigDecimal balance;
 
     @OneToMany(mappedBy = "budget")
@@ -32,7 +34,8 @@ public class Budget implements Serializable {
     @OneToOne(mappedBy = "budget")
     private User user;
 
-    public Budget(BigDecimal balance, List<Income> incomes, List<Expense> expense, User user) {
+    public Budget(String name, BigDecimal balance, List<Income> incomes, List<Expense> expense, User user) {
+        this.name = name;
         this.balance = balance;
         this.incomes = incomes;
         this.expense = expense;

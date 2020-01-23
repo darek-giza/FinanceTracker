@@ -11,6 +11,7 @@ import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,23 +27,33 @@ public class User implements UserDetails {
 
     private String password;
 
-    private String role;
+    private String email;
+
+    private Integer enabled;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
 
     @OneToOne
     @JoinColumn
     private Budget budget;
 
-    public User(String username, String password, String role, Budget budget) {
+    public User(String username, String password, String email, Integer enabled, Set<Role> roles, Budget budget) {
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.email = email;
+        this.enabled = enabled;
+        this.roles = roles;
         this.budget = budget;
+
 
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(role));
+        return Collections.singleton(new SimpleGrantedAuthority(roles.toString()));
     }
 
     @Override
