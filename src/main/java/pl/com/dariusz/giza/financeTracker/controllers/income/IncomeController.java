@@ -2,15 +2,17 @@ package pl.com.dariusz.giza.financeTracker.controllers.income;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import pl.com.dariusz.giza.financeTracker.controllers.security.AuthenticationFacade;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Income;
 import pl.com.dariusz.giza.financeTracker.service.Income.IncomeService;
 import pl.com.dariusz.giza.financeTracker.service.budget.BudgetService;
 import pl.com.dariusz.giza.financeTracker.service.user.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -22,12 +24,14 @@ public class IncomeController {
     private final IncomeService incomeService;
     private final BudgetService budgetService;
     private final UserService userService;
+    private final AuthenticationFacade authenticationFacade;
 
     @Autowired
-    public IncomeController(IncomeService incomeService, BudgetService budgetService, UserService userService) {
+    public IncomeController(IncomeService incomeService, BudgetService budgetService, UserService userService, AuthenticationFacade authenticationFacade) {
         this.incomeService = incomeService;
         this.budgetService = budgetService;
         this.userService = userService;
+        this.authenticationFacade = authenticationFacade;
     }
 
     @GetMapping
@@ -37,13 +41,15 @@ public class IncomeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Income saveIncome(@RequestBody Income income) {
+    public Income saveIncome(@RequestBody Income income, Principal principal) {
 
-        final Budget budgetById = budgetService.findById(1L);
+        String userName=principal.getName();
 
-        budgetService.increaseBudget(budgetById,income);
+        final Budget budget = userService.findUserByUsername(userName).getBudget();
 
-        incomeService.createIncome(income,budgetById);
+        budgetService.increaseBudget(budget, income);
+
+        incomeService.createIncome(income, budget);
 
         return income;
     }
