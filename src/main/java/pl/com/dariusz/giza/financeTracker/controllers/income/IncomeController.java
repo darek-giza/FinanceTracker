@@ -3,7 +3,6 @@ package pl.com.dariusz.giza.financeTracker.controllers.income;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.com.dariusz.giza.financeTracker.controllers.security.AuthenticationFacade;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
@@ -12,7 +11,6 @@ import pl.com.dariusz.giza.financeTracker.service.Income.IncomeService;
 import pl.com.dariusz.giza.financeTracker.service.budget.BudgetService;
 import pl.com.dariusz.giza.financeTracker.service.user.UserService;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -41,17 +39,17 @@ public class IncomeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Income saveIncome(@RequestBody Income income, Principal principal) {
-
-        String userName=principal.getName();
-
-        final Budget budget = userService.findUserByUsername(userName).getBudget();
-
+    public Income saveIncome(@RequestBody Income income) {
+        final Budget budget = getBudget();
         budgetService.increaseBudget(budget, income);
-
         incomeService.createIncome(income, budget);
-
         return income;
+    }
+
+
+    public Budget getBudget() {
+        final String userName = authenticationFacade.getAuthentication().getName();
+        return userService.findUserByUsername(userName).getBudget();
     }
 
 }
