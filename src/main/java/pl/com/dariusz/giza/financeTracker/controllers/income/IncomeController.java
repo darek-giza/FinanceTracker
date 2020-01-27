@@ -39,7 +39,7 @@ public class IncomeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Income saveIncome(@RequestBody Income income) {
+    public List<Income> saveIncome(@RequestBody List<Income> income) {
         final Budget budget = getBudget();
         budgetService.increaseBudget(budget, income);
         incomeService.createIncome(income, budget);

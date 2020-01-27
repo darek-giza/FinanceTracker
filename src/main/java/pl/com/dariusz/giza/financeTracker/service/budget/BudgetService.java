@@ -14,7 +14,7 @@ public interface BudgetService {
 
     List<Budget> findAll();
 
-    Budget increaseBudget(Budget budget, Income income);
+    Budget increaseBudget(Budget budget, List<Income> income);
 
     Budget reduceBudget(Budget budget, List<Expense> expense);
 }

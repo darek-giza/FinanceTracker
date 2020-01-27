@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IncomeService {
 
-    Income createIncome(Income income, Budget budget);
+    List<Income> createIncome(List<Income> income, Budget budget);
 
     List<Income> getAll();
 }
