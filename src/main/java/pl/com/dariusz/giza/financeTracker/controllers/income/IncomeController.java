@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping(IncomeController.BASE_URL)
 public class IncomeController {
 
-    public static final String BASE_URL = "/api/income";
+    public static final String BASE_URL = "/api/incomes";
 
     private final IncomeService incomeService;
     private final BudgetService budgetService;

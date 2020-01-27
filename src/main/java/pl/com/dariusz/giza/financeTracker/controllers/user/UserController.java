@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequestMapping(UserController.BASE_URL)
 public class UserController {
 
-    public static final String BASE_URL = "/api";
+    public static final String BASE_URL = "/api/users";
 
     private final UserService userService;
     private final AuthenticationFacade authenticationFacade;
@@ -24,7 +24,7 @@ public class UserController {
         this.authenticationFacade = authenticationFacade;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/all")
     public List<User> getAllUsers() {
         return userService.findAllUsers();
     }

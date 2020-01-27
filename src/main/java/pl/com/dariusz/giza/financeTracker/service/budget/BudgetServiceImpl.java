@@ -25,7 +25,9 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     public Budget createBudgets() {
-        Budget budget=new Budget();
+        Budget budget = new Budget();
+        budget.setBalance(new BigDecimal(0));
+        budget.setName("DeafultName");
         return budgetsRepository.save(budget);
 
     }
