@@ -4,8 +4,12 @@ package pl.com.dariusz.giza.financeTracker.controllers.expense;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pl.com.dariusz.giza.financeTracker.controllers.security.AuthenticationFacade;
+import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
+import pl.com.dariusz.giza.financeTracker.service.budget.BudgetService;
 import pl.com.dariusz.giza.financeTracker.service.expense.ExpenseService;
+import pl.com.dariusz.giza.financeTracker.service.user.UserService;
 
 import java.util.List;
 
@@ -16,20 +20,37 @@ public class ExpenseController {
     public static final String BASE_URL = "/api/expense";
 
     private final ExpenseService expenseService;
+    private final AuthenticationFacade authenticationFacade;
+    private final UserService userService;
+    private final BudgetService budgetService;
 
     @Autowired
-    public ExpenseController(ExpenseService expenseService) {
+    public ExpenseController(ExpenseService expenseService, AuthenticationFacade authenticationFacade, UserService userService, BudgetService budgetService) {
         this.expenseService = expenseService;
+        this.authenticationFacade = authenticationFacade;
+        this.userService = userService;
+        this.budgetService = budgetService;
     }
 
     @GetMapping
-    public List<Expense> getAll(){
+    public List<Expense> getAll() {
         return expenseService.getAll();
     }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Expense saveExpense(@RequestBody Expense expense){
-        return expenseService.createExpense(expense);
+    public Expense saveExpense(@RequestBody Expense expense) {
+        final Budget budget = getBudget();
+        budgetService.reduceBudget(budget, expense);
+
+        expenseService.createExpense(expense, budget);
+
+        return expense;
+    }
+
+    public Budget getBudget() {
+        final String userName = authenticationFacade.getAuthentication().getName();
+        return userService.findUserByUsername(userName).getBudget();
     }
 
 }

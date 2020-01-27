@@ -1,6 +1,7 @@
 package pl.com.dariusz.giza.financeTracker.service.expense;
 
 import org.springframework.stereotype.Service;
+import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
 import pl.com.dariusz.giza.financeTracker.repositories.ExpenseRepository;
 
@@ -21,7 +22,8 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public Expense createExpense(Expense expense) {
+    public Expense createExpense(Expense expense, Budget budget) {
+        expense.setBudget(budget);
         return expenseRepository.save(expense);
     }
 }

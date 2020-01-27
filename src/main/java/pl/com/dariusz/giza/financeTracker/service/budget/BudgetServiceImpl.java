@@ -2,6 +2,7 @@ package pl.com.dariusz.giza.financeTracker.service.budget;
 
 import org.springframework.stereotype.Service;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
+import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Income;
 import pl.com.dariusz.giza.financeTracker.repositories.BudgetsRepository;
 
@@ -40,14 +41,36 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     public Budget increaseBudget(Budget budget, Income income) {
-        Optional<Budget> currentBudget = budgetsRepository.findById(budget.getId());
+        final Optional<Budget> currentBudget = currentBudget(budget);
         BigDecimal balance = currentBudget.get().getBalance();
-        if(balance==null){
-            balance = new BigDecimal(0);
-        }
+        checkBalance(balance);
         BigDecimal increase = balance.add(income.getAmount());
         currentBudget.get().setBalance(increase);
         return budgetsRepository.save(currentBudget.get());
 
     }
+
+    @Override
+    public Budget reduceBudget(Budget budget, Expense expense) {
+        final Optional<Budget> currentBudget = currentBudget(budget);
+        BigDecimal balance = currentBudget(budget).get().getBalance();
+        checkBalance(balance);
+        BigDecimal reduce = balance.subtract(expense.getAmount());
+        currentBudget.get().setBalance(reduce);
+        return budgetsRepository.save(currentBudget.get());
+    }
+
+    public Optional<Budget> currentBudget(Budget budget) {
+        return budgetsRepository.findById(budget.getId());
+
+    }
+
+    public BigDecimal checkBalance(BigDecimal balance) {
+        if (balance == null) {
+            balance = new BigDecimal(0);
+        }
+        return balance;
+    }
+
+
 }
