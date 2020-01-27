@@ -51,11 +51,14 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public Budget reduceBudget(Budget budget, Expense expense) {
+    public Budget reduceBudget(Budget budget, List<Expense> expense) {
         final Optional<Budget> currentBudget = currentBudget(budget);
         BigDecimal balance = currentBudget(budget).get().getBalance();
         checkBalance(balance);
-        BigDecimal reduce = balance.subtract(expense.getAmount());
+        BigDecimal reduce = balance.subtract(expense
+                .stream().map(e -> e.getAmount())
+                .reduce(BigDecimal::add)
+                .get());
         currentBudget.get().setBalance(reduce);
         return budgetsRepository.save(currentBudget.get());
     }

@@ -22,8 +22,11 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public Expense createExpense(Expense expense, Budget budget) {
-        expense.setBudget(budget);
-        return expenseRepository.save(expense);
+    public List<Expense> createExpense(List<Expense> expense, Budget budget) {
+
+        final List<Expense> listExpenses = expense;
+        listExpenses.stream().forEach(e -> e.setBudget(budget));
+
+        return expenseRepository.saveAll(listExpenses);
     }
 }

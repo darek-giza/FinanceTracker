@@ -9,5 +9,5 @@ public interface ExpenseService {
 
     List<Expense> getAll();
 
-    Expense createExpense(Expense expense, Budget budget);
+    List<Expense> createExpense(List<Expense> expense, Budget budget);
 }
