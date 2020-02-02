@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(UserController.BASE_URL)
+@CrossOrigin
 public class UserController {
 
     public static final String BASE_URL = "/api/users";
