@@ -5,8 +5,8 @@ target/
 !**/src/test/**
 node_modules
 *.json
-*webpack.config.js
-webpack.generated.js
+*.js
+
 
 ### STS ###
 .apt_generated
