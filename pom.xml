@@ -89,6 +89,14 @@
 		</dependencies>
 	</dependencyManagement>
 
+<!--	<distributionManagement>-->
+<!--		<repository>-->
+<!--			<id>internal.repo</id>-->
+<!--			<name>MyCo Internal Repository</name>-->
+<!--			<url>https://financetraker.herokuapp.com/</url>-->
+<!--		</repository>-->
+<!--	</distributionManagement>-->
+
 	<build>
 		<plugins>
 			<plugin>
