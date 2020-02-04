@@ -11,6 +11,7 @@
 	<groupId>pl.com.dariusz.giza</groupId>
 	<artifactId>tracker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>FinanceTracker</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -88,6 +89,14 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<distributionManagement>
+		<repository>
+			<id>internal.repo</id>
+			<name>MyCo Internal Repository</name>
+			<url></url>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<plugins>
