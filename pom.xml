@@ -16,7 +16,7 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<vaadin.version>14.1.5</vaadin.version>
+<!--		<vaadin.version>14.1.5</vaadin.version>-->
 	</properties>
 
 	<dependencies>
@@ -77,17 +77,17 @@
 		</dependency>
 	</dependencies>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-bom</artifactId>
-				<version>${vaadin.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+<!--	<dependencyManagement>-->
+<!--		<dependencies>-->
+<!--			<dependency>-->
+<!--				<groupId>com.vaadin</groupId>-->
+<!--				<artifactId>vaadin-bom</artifactId>-->
+<!--				<version>${vaadin.version}</version>-->
+<!--				<type>pom</type>-->
+<!--				<scope>import</scope>-->
+<!--			</dependency>-->
+<!--		</dependencies>-->
+<!--	</dependencyManagement>-->
 
 <!--	<distributionManagement>-->
 <!--		<repository>-->
