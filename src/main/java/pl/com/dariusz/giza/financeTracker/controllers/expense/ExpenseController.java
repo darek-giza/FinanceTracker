@@ -15,9 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(ExpenseController.BASE_URL)
+@CrossOrigin
 public class ExpenseController {
 
-    public static final String BASE_URL = "/api/expense";
+    public static final String BASE_URL = "/api/expenses";
 
     private final ExpenseService expenseService;
     private final AuthenticationFacade authenticationFacade;

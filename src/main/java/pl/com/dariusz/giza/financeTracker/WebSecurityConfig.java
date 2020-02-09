@@ -46,14 +46,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/incomes/**").hasRole("USER")
-                .antMatchers("/api/budgets/**").hasRole("USER")
-                .antMatchers("/api/expense/**").hasRole("USER")
+                .anyRequest().permitAll()
+//                .antMatchers("/incomes").hasRole("USER")
+//                .antMatchers("/budgets").hasRole("USER")
+//                .antMatchers("/expense").hasRole("USER")
 //                .antMatchers("/api/users/**").hasRole("USER")
-                .antMatchers("/api/users/**").permitAll()
-                .antMatchers("/login").permitAll()
-                .and()
-                .formLogin()
+//                .antMatchers("/users").hasRole("USER")
+//                .antMatchers("/login").permitAll()
+//                .and()
+//                .formLogin()
                 .and().httpBasic()
                 .and().csrf().disable();
     }

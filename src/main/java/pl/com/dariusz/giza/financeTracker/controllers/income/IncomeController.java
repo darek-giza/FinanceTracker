@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(IncomeController.BASE_URL)
+@CrossOrigin
 public class IncomeController {
 
     public static final String BASE_URL = "/api/incomes";
