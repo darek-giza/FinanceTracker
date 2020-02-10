@@ -4,7 +4,7 @@ package pl.com.dariusz.giza.financeTracker.controllers.income;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.com.dariusz.giza.financeTracker.controllers.security.AuthenticationFacade;
+import pl.com.dariusz.giza.financeTracker.service.security.AuthenticationFacade;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Income;
 import pl.com.dariusz.giza.financeTracker.service.Income.IncomeService;
