@@ -7,7 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.com.dariusz.giza.financeTracker.Jwt.JwtUtil;
+import pl.com.dariusz.giza.financeTracker.domain.jwt.JwtUtil;
 import pl.com.dariusz.giza.financeTracker.domain.user.User;
 
 import javax.servlet.FilterChain;

@@ -1,7 +1,6 @@
 package pl.com.dariusz.giza.financeTracker.controllers.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -9,9 +8,9 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import pl.com.dariusz.giza.financeTracker.Jwt.JwtUtil;
 import pl.com.dariusz.giza.financeTracker.domain.jwt.JwtRequest;
 import pl.com.dariusz.giza.financeTracker.domain.jwt.JwtResponse;
+import pl.com.dariusz.giza.financeTracker.domain.jwt.JwtUtil;
 import pl.com.dariusz.giza.financeTracker.domain.user.User;
 import pl.com.dariusz.giza.financeTracker.security.AuthenticationFacade;
 import pl.com.dariusz.giza.financeTracker.service.user.UserDetailsServiceImpl;
@@ -70,13 +69,9 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<?> seveUser(@RequestBody User user) throws Exception{
-
+    public ResponseEntity<?> saveUser(@RequestBody User user) throws Exception {
         return ResponseEntity.ok(userService.saveUser(user));
     }
-
-
-
 
     @PostMapping("/login")
     public String login(@RequestBody User user) throws Exception {
@@ -103,12 +98,6 @@ public class UserController {
     @GetMapping("/api/user")
     public User getCurrentUser() {
         return userService.findUserByUsername(getUserName());
-    }
-
-    @PostMapping("/api/user")
-    @ResponseStatus(HttpStatus.CREATED)
-    public User saveUser(@RequestBody User user) {
-        return userService.saveUser(user);
     }
 
     private String getUserName() {

@@ -1,4 +1,4 @@
-package pl.com.dariusz.giza.financeTracker;
+package pl.com.dariusz.giza.financeTracker.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,10 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.com.dariusz.giza.financeTracker.Jwt.JwtUtil;
-import pl.com.dariusz.giza.financeTracker.security.JWTAuthenticationFilter;
-import pl.com.dariusz.giza.financeTracker.security.JWTAuthorizationFilter;
-import pl.com.dariusz.giza.financeTracker.security.JwtAuthenticationEntryPoint;
+import pl.com.dariusz.giza.financeTracker.domain.jwt.JwtUtil;
 import pl.com.dariusz.giza.financeTracker.service.user.UserDetailsServiceImpl;
 
 import javax.sql.DataSource;
@@ -66,9 +63,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/authenticate","/login","/register").permitAll()
-                .anyRequest().authenticated().and()
-//                .antMatchers("/incomes").hasRole("USER")
+                .antMatchers("/authenticate", "/login", "/register").permitAll()
+                .antMatchers("/api/incomes").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and()
 //                .antMatchers("/budgets").hasRole("USER")
 //                .antMatchers("/expense").hasRole("USER")
 //                .antMatchers("/api/users/**").hasRole("USER")
@@ -76,8 +74,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/login").permitAll()
 //                .and()
 //                .formLogin()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager(),jwtUtil))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService))
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .httpBasic().and()
                 .csrf().disable();

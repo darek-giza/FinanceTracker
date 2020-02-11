@@ -1,12 +1,14 @@
 package pl.com.dariusz.giza.financeTracker.security;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.ExpiredJwtException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import pl.com.dariusz.giza.financeTracker.domain.jwt.JwtUtil;
+import pl.com.dariusz.giza.financeTracker.service.user.UserDetailsServiceImpl;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -19,9 +21,16 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     public static final String SECRET = "java";
 
+    @Autowired
+    private JwtUtil jwtUtil;
 
-    public JWTAuthorizationFilter(AuthenticationManager authMenager) {
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    public JWTAuthorizationFilter(AuthenticationManager authMenager, JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService) {
         super(authMenager);
+        this.jwtUtil = jwtUtil;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -40,22 +49,35 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         chain.doFilter(req, res);
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
+    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) throws ExpiredJwtException {
 
-        String token = req.getHeader("Authorization");
+        String reqToken = req.getHeader("Authorization");
 
-        if (token != null) {
+        String usernameFromToken = null;
+        String jwtToken = null;
 
-            String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
-                    .build()
-                    .verify(token.replace("Bearer ", ""))
-                    .getSubject();
+        if (reqToken != null && reqToken.startsWith("Bearer ")) {
 
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            jwtToken = reqToken.substring(7);
+            try {
+                usernameFromToken = jwtUtil.getUsernameFromToken(jwtToken);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Unable to get JWT Token");
+            } catch (ExpiredJwtException e) {
+                throw new ExpiredJwtException(e.getHeader(), e.getClaims(), "JWT Token has expired");
             }
-            return null;
+
+            if (usernameFromToken != null) {
+
+                final UserDetails userDetails = userDetailsService.loadUserByUsername(usernameFromToken);
+
+                if (jwtUtil.validateToken(jwtToken, userDetails)) {
+
+                    return new UsernamePasswordAuthenticationToken(userDetails, null, new ArrayList<>());
+                }
+            }
         }
         return null;
+
     }
 }
