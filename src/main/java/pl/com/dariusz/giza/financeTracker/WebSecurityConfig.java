@@ -4,27 +4,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.com.dariusz.giza.financeTracker.Jwt.JwtUtil;
+import pl.com.dariusz.giza.financeTracker.security.JWTAuthenticationFilter;
+import pl.com.dariusz.giza.financeTracker.security.JWTAuthorizationFilter;
+import pl.com.dariusz.giza.financeTracker.security.JwtAuthenticationEntryPoint;
 import pl.com.dariusz.giza.financeTracker.service.user.UserDetailsServiceImpl;
 
 import javax.sql.DataSource;
 
 
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserDetailsServiceImpl userDetailsServiceimpl;
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    private UserDetailsServiceImpl userDetailsService;
 
     private DataSource dataSource;
 
     @Autowired
-    public WebSecurityConfig(UserDetailsServiceImpl userDetailsServiceimpl, DataSource dataSource) {
-        this.userDetailsServiceimpl = userDetailsServiceimpl;
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    public WebSecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, UserDetailsServiceImpl userDetailsService, DataSource dataSource, JwtUtil jwtUtil) {
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.userDetailsService = userDetailsService;
         this.dataSource = dataSource;
+        this.jwtUtil = jwtUtil;
     }
 
     @Value("SELECT username,password,enabled FROM user WHERE username=?")
@@ -43,10 +57,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/authentication","/login").permitAll()
+                .antMatchers("/authenticate","/login","/register").permitAll()
+                .anyRequest().authenticated().and()
 //                .antMatchers("/incomes").hasRole("USER")
 //                .antMatchers("/budgets").hasRole("USER")
 //                .antMatchers("/expense").hasRole("USER")
@@ -55,8 +76,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/login").permitAll()
 //                .and()
 //                .formLogin()
-                .and().httpBasic()
-                .and().csrf().disable();
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(),jwtUtil))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+                .httpBasic().and()
+                .csrf().disable();
     }
 
     @Bean

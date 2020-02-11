@@ -1,4 +1,4 @@
-package pl.com.dariusz.giza.financeTracker.service.security;
+package pl.com.dariusz.giza.financeTracker.security;
 
 import org.springframework.security.core.Authentication;
 

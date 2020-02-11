@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.com.dariusz.giza.financeTracker.service.security.AuthenticationFacade;
+import pl.com.dariusz.giza.financeTracker.security.AuthenticationFacade;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.user.User;
 import pl.com.dariusz.giza.financeTracker.service.budget.BudgetService;

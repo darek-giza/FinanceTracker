@@ -1,4 +1,4 @@
-package pl.com.dariusz.giza.financeTracker;
+package pl.com.dariusz.giza.financeTracker.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

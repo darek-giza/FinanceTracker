@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         final User user = userRepository.findByUsername(username).get();
 
-        if(user == null) throw new UsernameNotFoundException(username);
+        if(user == null) throw new UsernameNotFoundException("User not found with username" +username);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
@@ -37,4 +37,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), grantedAuthorities);
     }
+
 }
