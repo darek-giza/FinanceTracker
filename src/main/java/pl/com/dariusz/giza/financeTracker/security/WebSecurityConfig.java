@@ -64,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/authenticate", "/login", "/register").permitAll()
-                .antMatchers("/api/incomes").hasRole("ADMIN")
+//                .antMatchers("/incomes").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
 //                .antMatchers("/budgets").hasRole("USER")
@@ -78,7 +78,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService))
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .httpBasic().and()
-                .csrf().disable();
+                .csrf().disable()
+                .cors();
     }
 
     @Bean
