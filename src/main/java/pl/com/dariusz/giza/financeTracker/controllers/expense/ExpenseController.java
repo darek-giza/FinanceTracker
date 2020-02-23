@@ -11,6 +11,7 @@ import pl.com.dariusz.giza.financeTracker.service.budget.BudgetService;
 import pl.com.dariusz.giza.financeTracker.service.expense.ExpenseService;
 import pl.com.dariusz.giza.financeTracker.service.user.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,11 +41,13 @@ public class ExpenseController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public List<Expense> saveExpense(@RequestBody List<Expense> expense) {
+    public Expense saveExpense(@RequestBody Expense expense) {
         final Budget budget = getBudget();
-        budgetService.reduceBudget(budget, expense);
+        List<Expense> expenseList=new ArrayList<>();
+        expenseList.add(expense);
+        budgetService.reduceBudget(budget, expenseList);
 
-        expenseService.createExpense(expense, budget);
+        expenseService.createExpense(expenseList, budget);
 
         return expense;
     }

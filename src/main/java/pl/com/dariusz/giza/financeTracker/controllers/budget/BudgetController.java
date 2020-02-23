@@ -2,6 +2,7 @@ package pl.com.dariusz.giza.financeTracker.controllers.budget;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(BudgetController.BASE_URL)
+@CrossOrigin
 public class BudgetController {
 
     public static final String BASE_URL = "/api/budgets";
