@@ -41,13 +41,11 @@ public class ExpenseController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Expense saveExpense(@RequestBody Expense expense) {
+    public List<Expense> saveExpense(@RequestBody List<Expense> expense) {
         final Budget budget = getBudget();
-        List<Expense> expenseList=new ArrayList<>();
-        expenseList.add(expense);
-        budgetService.reduceBudget(budget, expenseList);
+        budgetService.reduceBudget(budget, expense);
 
-        expenseService.createExpense(expenseList, budget);
+        expenseService.createExpense(expense, budget);
 
         return expense;
     }
