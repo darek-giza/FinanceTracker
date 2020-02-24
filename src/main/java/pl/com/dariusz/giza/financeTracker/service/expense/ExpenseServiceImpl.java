@@ -3,10 +3,8 @@ package pl.com.dariusz.giza.financeTracker.service.expense;
 import org.springframework.stereotype.Service;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
-import pl.com.dariusz.giza.financeTracker.domain.user.User;
 import pl.com.dariusz.giza.financeTracker.repositories.ExpenseRepository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
