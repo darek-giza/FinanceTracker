@@ -11,7 +11,6 @@ import pl.com.dariusz.giza.financeTracker.service.budget.BudgetService;
 import pl.com.dariusz.giza.financeTracker.service.expense.ExpenseService;
 import pl.com.dariusz.giza.financeTracker.service.user.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,8 +34,8 @@ public class ExpenseController {
     }
 
     @GetMapping
-    public List<Expense> getAll() {
-        return expenseService.getAll();
+    public List<Expense> getUserIncomes() {
+        return expenseService.getUserExpenses(getBudget());
     }
 
     @PostMapping

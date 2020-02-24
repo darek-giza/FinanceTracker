@@ -6,6 +6,7 @@ import pl.com.dariusz.giza.financeTracker.domain.budgets.Income;
 import pl.com.dariusz.giza.financeTracker.repositories.IncomeRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class IncomeServiceImpl implements IncomeService {
@@ -24,7 +25,13 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public List<Income> getAll() {
-        return incomeRepository.findAll();
+    public List<Income> getUserIncomes(Budget budget){
+        final List<Income> allIncomes = incomeRepository.findAll();
+        final Long idUser = budget.getId();
+
+        return  allIncomes.stream()
+                .filter(e-> e.getBudget().getId() == idUser)
+                .sorted((o1, o2) ->o2.getDate().compareTo(o1.getDate()))
+                .collect(Collectors.toList());
     }
 }

@@ -34,8 +34,8 @@ public class IncomeController {
     }
 
     @GetMapping
-    public List<Income> getAll() {
-        return incomeService.getAll();
+    public List<Income> getUserIncomes() {
+        return incomeService.getUserIncomes(getBudget());
     }
 
     @PostMapping

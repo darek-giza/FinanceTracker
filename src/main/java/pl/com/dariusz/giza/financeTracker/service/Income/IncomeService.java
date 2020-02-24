@@ -9,5 +9,5 @@ public interface IncomeService {
 
     List<Income> createIncome(List<Income> income, Budget budget);
 
-    List<Income> getAll();
+    List<Income> getUserIncomes(Budget budget);
 }
