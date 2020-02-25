@@ -20,8 +20,9 @@ public class Expense implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private ExpensesType expensesType;
+    @ManyToOne
+    @JoinColumn
+    private ExpenseType expenseType;
 
     private BigDecimal amount;
 
@@ -34,8 +35,8 @@ public class Expense implements Serializable {
     @JoinColumn
     private Budget budget;
 
-    public Expense(ExpensesType expensesType, BigDecimal amount, String description, LocalDate date, Budget budget) {
-        this.expensesType = expensesType;
+    public Expense(ExpenseType expenseType, BigDecimal amount, String description, LocalDate date, Budget budget) {
+        this.expenseType = expenseType;
         this.amount = amount;
         this.description = description;
         this.date = date;
