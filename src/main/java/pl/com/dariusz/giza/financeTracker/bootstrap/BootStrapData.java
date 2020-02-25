@@ -46,7 +46,7 @@ public class BootStrapData {
         return new BCryptPasswordEncoder();
     }
 
-    @org.springframework.context.event.EventListener(ApplicationReadyEvent.class)
+//    @org.springframework.context.event.EventListener(ApplicationReadyEvent.class)
 
 //    @EventListener(ApplicationReadyEvent.class)
 
