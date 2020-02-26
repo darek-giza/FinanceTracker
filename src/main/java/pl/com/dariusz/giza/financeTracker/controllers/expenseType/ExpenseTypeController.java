@@ -1,10 +1,8 @@
 package pl.com.dariusz.giza.financeTracker.controllers.expenseType;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.ExpenseType;
 import pl.com.dariusz.giza.financeTracker.security.AuthenticationFacade;
@@ -34,6 +32,12 @@ public class ExpenseTypeController {
     @GetMapping
     public List<ExpenseType> getUserExpenseType() {
         return expenseTypeService.getExpenseTypeForUser(getBudget());
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ExpenseType addExpenseType(@RequestBody ExpenseType expenseType){
+        return expenseTypeService.createExpenseType(expenseType);
     }
 
     public Budget getBudget() {

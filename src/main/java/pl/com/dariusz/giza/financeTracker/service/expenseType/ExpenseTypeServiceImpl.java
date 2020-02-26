@@ -33,4 +33,9 @@ public class ExpenseTypeServiceImpl implements ExpenseTypeService {
                 .sorted(Comparator.comparing(ExpenseType::getDescription))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ExpenseType createExpenseType(ExpenseType expenseType) {
+        return expenseTypeRepository.save(expenseType);
+    }
 }

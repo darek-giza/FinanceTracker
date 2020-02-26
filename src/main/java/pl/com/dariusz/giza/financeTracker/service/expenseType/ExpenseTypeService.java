@@ -8,4 +8,6 @@ import java.util.List;
 public interface ExpenseTypeService {
 
     List<ExpenseType> getExpenseTypeForUser(Budget budget);
+
+    ExpenseType createExpenseType(ExpenseType expenseType);
 }
