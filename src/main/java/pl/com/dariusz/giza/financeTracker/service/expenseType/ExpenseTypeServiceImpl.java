@@ -7,6 +7,7 @@ import pl.com.dariusz.giza.financeTracker.domain.budgets.ExpenseType;
 import pl.com.dariusz.giza.financeTracker.repositories.ExpenseRepository;
 import pl.com.dariusz.giza.financeTracker.repositories.ExpenseTypeRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,7 @@ public class ExpenseTypeServiceImpl implements ExpenseTypeService {
                 .filter(e -> e.getBudget().getId() == budget.getId())
                 .map(e -> e.getExpenseType())
                 .distinct()
+                .sorted(Comparator.comparing(ExpenseType::getDescription))
                 .collect(Collectors.toList());
     }
 }
