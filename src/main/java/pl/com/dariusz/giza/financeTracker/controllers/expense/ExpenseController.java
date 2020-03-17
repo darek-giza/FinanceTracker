@@ -9,6 +9,7 @@ import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
 import pl.com.dariusz.giza.financeTracker.security.AuthenticationFacade;
 import pl.com.dariusz.giza.financeTracker.service.budget.BudgetService;
 import pl.com.dariusz.giza.financeTracker.service.expense.ExpenseService;
+import pl.com.dariusz.giza.financeTracker.service.expenseType.ExpenseTypeService;
 import pl.com.dariusz.giza.financeTracker.service.user.UserService;
 
 import java.util.List;
@@ -24,17 +25,19 @@ public class ExpenseController {
     private final AuthenticationFacade authenticationFacade;
     private final UserService userService;
     private final BudgetService budgetService;
+    private final ExpenseTypeService expenseTypeService;
 
     @Autowired
-    public ExpenseController(ExpenseService expenseService, AuthenticationFacade authenticationFacade, UserService userService, BudgetService budgetService) {
+    public ExpenseController(ExpenseService expenseService, AuthenticationFacade authenticationFacade, UserService userService, BudgetService budgetService, ExpenseTypeService expenseTypeService) {
         this.expenseService = expenseService;
         this.authenticationFacade = authenticationFacade;
         this.userService = userService;
         this.budgetService = budgetService;
+        this.expenseTypeService = expenseTypeService;
     }
 
     @GetMapping
-    public List<Expense> getUserIncomes() {
+    public List<Expense> getUserExpenses() {
         return expenseService.getUserExpenses(getBudget());
     }
 
@@ -42,9 +45,10 @@ public class ExpenseController {
     @ResponseStatus(HttpStatus.CREATED)
     public List<Expense> saveExpense(@RequestBody List<Expense> expense) {
         final Budget budget = getBudget();
-        budgetService.reduceBudget(budget, expense);
 
+        budgetService.reduceBudget(budget, expense);
         expenseService.createExpense(expense, budget);
+        expenseTypeService.getIdOfExpenseType(budget, expense);
 
         return expense;
     }

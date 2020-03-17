@@ -9,17 +9,18 @@ import pl.com.dariusz.giza.financeTracker.repositories.ExpenseTypeRepository;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ExpenseTypeServiceImpl implements ExpenseTypeService {
 
-    private final ExpenseTypeRepository expenseTypeRepository;
     private final ExpenseRepository expenseRepository;
+    private final ExpenseTypeRepository expenseTypeRepository;
 
-    public ExpenseTypeServiceImpl(ExpenseTypeRepository expenseTypeRepository, ExpenseRepository expenseRepository) {
-        this.expenseTypeRepository = expenseTypeRepository;
+    public ExpenseTypeServiceImpl(ExpenseRepository expenseRepository, ExpenseTypeRepository expenseTypeRepository) {
         this.expenseRepository = expenseRepository;
+        this.expenseTypeRepository = expenseTypeRepository;
     }
 
     @Override
@@ -32,6 +33,19 @@ public class ExpenseTypeServiceImpl implements ExpenseTypeService {
                 .distinct()
                 .sorted(Comparator.comparing(ExpenseType::getDescription))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Integer> getIdOfExpenseType(Budget budget, List<Expense> expenses) {
+
+        String description = expenses.stream().map(e -> e.getExpenseType().getDescription()).findFirst().get();
+
+        final List<ExpenseType> expenseTypeForUser = getExpenseTypeForUser(budget);
+
+        return expenseTypeForUser.stream()
+                .filter(e -> e.getDescription().contains(description))
+                .map(e -> e.getId())
+                .findFirst();
     }
 
     @Override

@@ -4,17 +4,22 @@ import org.springframework.stereotype.Service;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
 import pl.com.dariusz.giza.financeTracker.repositories.ExpenseRepository;
+import pl.com.dariusz.giza.financeTracker.service.expenseType.ExpenseTypeService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
 
     private final ExpenseRepository expenseRepository;
+    private final ExpenseTypeService expenseTypeService;
 
-    public ExpenseServiceImpl(ExpenseRepository expenseRepository) {
+    public ExpenseServiceImpl(ExpenseRepository expenseRepository, ExpenseTypeService expenseTypeService) {
         this.expenseRepository = expenseRepository;
+
+        this.expenseTypeService = expenseTypeService;
     }
 
     @Override
@@ -32,8 +37,12 @@ public class ExpenseServiceImpl implements ExpenseService {
     public List<Expense> createExpense(List<Expense> expense, Budget budget) {
 
         final List<Expense> listExpenses = expense;
-        listExpenses.stream().forEach(e -> e.setBudget(budget));
 
+        final Optional<Integer> idOfExpenseType = expenseTypeService.getIdOfExpenseType(budget, expense);
+
+        listExpenses.stream().forEach(e -> e.setBudget(budget));
+        listExpenses.stream().forEach(e -> e.getExpenseType().setId(idOfExpenseType.get()));
         return expenseRepository.saveAll(listExpenses);
     }
+
 }
