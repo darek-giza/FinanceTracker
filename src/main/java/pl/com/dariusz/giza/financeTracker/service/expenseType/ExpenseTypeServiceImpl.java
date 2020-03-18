@@ -38,7 +38,11 @@ public class ExpenseTypeServiceImpl implements ExpenseTypeService {
     @Override
     public Optional<Integer> getIdOfExpenseType(Budget budget, List<Expense> expenses) {
 
-        String description = expenses.stream().map(e -> e.getExpenseType().getDescription()).findFirst().get();
+        String description = expenses.stream()
+                .map(e -> e.getExpenseType()
+                        .getDescription())
+                        .findFirst()
+                        .get();
 
         final List<ExpenseType> expenseTypeForUser = getExpenseTypeForUser(budget);
 
