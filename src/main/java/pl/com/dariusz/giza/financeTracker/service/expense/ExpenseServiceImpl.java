@@ -7,7 +7,6 @@ import pl.com.dariusz.giza.financeTracker.repositories.ExpenseRepository;
 import pl.com.dariusz.giza.financeTracker.service.expenseType.ExpenseTypeService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,13 +35,13 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public List<Expense> createExpense(List<Expense> expense, Budget budget) {
 
-        final List<Expense> listExpenses = expense;
+        Integer idOfExpenseType = expenseTypeService.getIdOfExpenseType(budget, expense).get();
 
-        final Optional<Integer> idOfExpenseType = expenseTypeService.getIdOfExpenseType(budget, expense);
-
-        listExpenses.stream().forEach(e -> e.setBudget(budget));
-        listExpenses.stream().forEach(e -> e.getExpenseType().setId(idOfExpenseType.get()));
-        return expenseRepository.saveAll(listExpenses);
+        expense.stream().forEach(e->{
+            e.setBudget(budget);
+            e.getExpenseType().setId(idOfExpenseType);
+        });
+        return expenseRepository.saveAll(expense);
     }
 
 }
