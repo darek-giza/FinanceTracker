@@ -21,6 +21,8 @@ public class ExpenseType implements Serializable {
 
     private String description;
 
+    private Long budgetId;
+
     @JsonIgnore
     @OneToMany(mappedBy = "expenseType")
     private List<Expense> expense;

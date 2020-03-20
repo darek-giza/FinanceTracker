@@ -25,11 +25,9 @@ public class ExpenseTypeServiceImpl implements ExpenseTypeService {
 
     @Override
     public List<ExpenseType> getExpenseTypeForUser(Budget budget) {
-        final List<Expense> allExpenses = expenseRepository.findAll();
 
-        return allExpenses.stream()
-                .filter(e -> e.getBudget().getId() == budget.getId())
-                .map(e -> e.getExpenseType())
+        return expenseTypeRepository.findExpenseTypeByBudgetId(budget.getId())
+                .stream()
                 .distinct()
                 .sorted(Comparator.comparing(ExpenseType::getDescription))
                 .collect(Collectors.toList());
@@ -47,13 +45,14 @@ public class ExpenseTypeServiceImpl implements ExpenseTypeService {
         final List<ExpenseType> expenseTypeForUser = getExpenseTypeForUser(budget);
 
         return expenseTypeForUser.stream()
-                .filter(e -> e.getDescription().contains(description))
+                .filter(e -> e.getDescription().equals(description))
                 .map(e -> e.getId())
                 .findFirst();
     }
 
     @Override
-    public ExpenseType createExpenseType(ExpenseType expenseType) {
+    public ExpenseType createExpenseType(ExpenseType expenseType, Budget budget) {
+        expenseType.setBudgetId(budget.getId());
         return expenseTypeRepository.save(expenseType);
     }
 }

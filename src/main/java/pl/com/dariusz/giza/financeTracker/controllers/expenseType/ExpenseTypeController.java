@@ -37,7 +37,7 @@ public class ExpenseTypeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ExpenseType addExpenseType(@RequestBody ExpenseType expenseType){
-        return expenseTypeService.createExpenseType(expenseType);
+        return expenseTypeService.createExpenseType(expenseType,getBudget());
     }
 
     public Budget getBudget() {
