@@ -25,13 +25,18 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public List<Income> getUserIncomes(Budget budget){
+    public List<Income> getUserIncomes(Budget budget) {
         final List<Income> allIncomes = incomeRepository.findAll();
         final Long idUser = budget.getId();
 
-        return  allIncomes.stream()
-                .filter(e-> e.getBudget().getId() == idUser)
-                .sorted((o1, o2) ->o2.getDate().compareTo(o1.getDate()))
+        return allIncomes.stream()
+                .filter(e -> e.getBudget().getId() == idUser)
+                .sorted((o1, o2) -> o2.getDate().compareTo(o1.getDate()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteIncome(Long id) {
+        incomeRepository.deleteById(id);
     }
 }

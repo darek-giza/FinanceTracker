@@ -10,4 +10,6 @@ public interface IncomeService {
     List<Income> createIncome(List<Income> income, Budget budget);
 
     List<Income> getUserIncomes(Budget budget);
+
+    void deleteIncome(Long id);
 }

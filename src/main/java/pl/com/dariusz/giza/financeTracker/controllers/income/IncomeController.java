@@ -47,6 +47,12 @@ public class IncomeController {
         return income;
     }
 
+    @DeleteMapping
+    public Income deleteIncome(@RequestBody Income income) {
+        incomeService.deleteIncome(income.getId());
+        return income;
+    }
+
 
     public Budget getBudget() {
         final String userName = authenticationFacade.getAuthentication().getName();
