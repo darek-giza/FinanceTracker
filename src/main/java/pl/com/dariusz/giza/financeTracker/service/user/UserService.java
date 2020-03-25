@@ -13,8 +13,6 @@ public interface UserService {
 
     User findUserByUsername(String username);
 
-    User saveUser(User user);
-
-    User addUser(User user);
+    User saveUser(User user) throws Exception;
 
 }

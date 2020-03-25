@@ -54,8 +54,8 @@ public class BootStrapData {
         Budget budget = new Budget("MyBudget", new BigDecimal(1250), null, null, null);
         budgetsRepository.save(budget);
         incomeRepository.saveAll(fillIncomes(budget));
-        User admin = new User("admin", passwordEncoder().encode("admin"), "admin@admin.pl", 1, null, null);
-        User user = new User("user", passwordEncoder().encode("user"), "dg@op.pl", 1, null, budget);
+        User admin = new User("admin", passwordEncoder().encode("admin"),  1, null, null);
+        User user = new User("user", passwordEncoder().encode("user"),  1, null, budget);
         admin.setRoles(new ArrayList<>(Arrays.asList(new Role("ROLE_ADMIN"))));
         user.setRoles(new ArrayList<>(Arrays.asList(new Role("ROLE_USER"))));
 

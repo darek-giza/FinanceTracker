@@ -29,8 +29,6 @@ public class User implements UserDetails {
 //    @Transient
     private String password;
 
-    private String email;
-
     private Integer enabled;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -42,10 +40,9 @@ public class User implements UserDetails {
     @JoinColumn
     private Budget budget;
 
-    public User(String username, String password, String email, Integer enabled, List<Role> roles, Budget budget) {
+    public User(String username, String password, Integer enabled, List<Role> roles, Budget budget) {
         this.username = username;
         this.password = password;
-        this.email = email;
         this.enabled = enabled;
         this.roles = roles;
         this.budget = budget;

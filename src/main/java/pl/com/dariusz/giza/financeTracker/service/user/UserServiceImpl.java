@@ -40,21 +40,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveUser(User user) {
-        setPassword(user);
-        user.setEnabled(1);
-        user.setRoles(roleService.setUserRole());
-        user.setBudget(budgetService.createBudgets());
+    public User saveUser(User user) throws Exception {
+
+        final User userByUsername = findUserByUsername(user.getUsername());
+        if(userByUsername !=null) {
+            throw new Exception("Username already exists");
+        }
+            setPassword(user);
+            user.setEnabled(1);
+            user.setRoles(roleService.setUserRole());
+            user.setBudget(budgetService.createBudgets());
         return userRepository.save(user);
     }
-
-    @Override
-    public User addUser(User user) {
-        String password=user.getPassword();
-        user.setPassword(password);
-        return userRepository.save(user);
-    }
-
 
     private void setPassword(User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
