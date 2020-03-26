@@ -55,4 +55,9 @@ public class ExpenseTypeServiceImpl implements ExpenseTypeService {
         expenseType.setBudgetId(budget.getId());
         return expenseTypeRepository.save(expenseType);
     }
+
+    @Override
+    public void deleteExpenseType(Integer id) {
+        expenseTypeRepository.deleteById(id);
+    }
 }

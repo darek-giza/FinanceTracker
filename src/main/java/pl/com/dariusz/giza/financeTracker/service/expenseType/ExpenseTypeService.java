@@ -14,4 +14,6 @@ public interface ExpenseTypeService {
     Optional<Integer> getIdOfExpenseType(Budget budget, List<Expense> expenses);
 
     ExpenseType createExpenseType(ExpenseType expenseType, Budget budget);
+
+    void deleteExpenseType(Integer id);
 }

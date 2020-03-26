@@ -28,7 +28,7 @@ public class BudgetServiceImpl implements BudgetService {
     public Budget createBudgets() {
         Budget budget = new Budget();
         budget.setBalance(new BigDecimal(0));
-        budget.setName("DeafultName");
+        budget.setName("Default name");
         return budgetsRepository.save(budget);
 
     }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
+import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.ExpenseType;
 import pl.com.dariusz.giza.financeTracker.security.AuthenticationFacade;
 import pl.com.dariusz.giza.financeTracker.service.expenseType.ExpenseTypeService;
@@ -43,5 +44,11 @@ public class ExpenseTypeController {
     public Budget getBudget() {
         final String userName = authenticationFacade.getAuthentication().getName();
         return userService.findUserByUsername(userName).getBudget();
+    }
+
+    @DeleteMapping
+    public ExpenseType deleteExpenseType(@RequestBody ExpenseType expenseType){
+        expenseTypeService.deleteExpenseType(expenseType.getId());
+        return expenseType;
     }
 }
