@@ -23,12 +23,11 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public List<Expense> getUserExpenses(Budget budget) {
-        final List<Expense> allExpenses = expenseRepository.findAll();
         final Long idUser = budget.getId();
+        List<Expense> userExpense = expenseRepository.getByBudget_Id(idUser);
 
-        return allExpenses.stream()
-                .filter(e -> e.getBudget().getId() == idUser)
-                .sorted((o1, o2) ->o2.getDate().compareTo(o1.getDate()))
+        return userExpense.stream()
+                .sorted((o1,o2)->o2.getDate().compareTo(o1.getDate()))
                 .collect(Collectors.toList());
     }
 

@@ -19,9 +19,8 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public List<Income> createIncome(List<Income> income, Budget budget) {
-        final List<Income> incomeList = income;
-        incomeList.stream().forEach(i -> i.setBudget(budget));
-        return incomeRepository.saveAll(incomeList);
+        income.stream().forEach(i -> i.setBudget(budget));
+        return incomeRepository.saveAll(income);
     }
 
     @Override
