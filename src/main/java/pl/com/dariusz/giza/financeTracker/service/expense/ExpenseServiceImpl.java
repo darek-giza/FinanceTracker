@@ -73,11 +73,11 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .map(e -> e.getAmount())
                 .reduce(BigDecimal::add);
 
-        final Optional<BigDecimal> annually = byBudget_id.stream()
+        final Optional<BigDecimal> yearly = byBudget_id.stream()
                 .map(e -> e.getAmount())
                 .reduce(BigDecimal::add);
 
-        return new ExpenseCount(daily, weekly, monthly, annually);
+        return new ExpenseCount(daily, weekly, monthly, yearly);
 
 
     }

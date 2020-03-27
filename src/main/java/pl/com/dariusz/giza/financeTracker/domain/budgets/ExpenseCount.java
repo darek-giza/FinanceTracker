@@ -16,13 +16,13 @@ public class ExpenseCount implements Serializable {
     private Optional<BigDecimal> daily;
     private Optional<BigDecimal> weekly;
     private Optional<BigDecimal> monthly;
-    private Optional<BigDecimal> annually;
+    private Optional<BigDecimal> yearly;
 
     public ExpenseCount(Optional<BigDecimal> daily, Optional<BigDecimal> weekly,
-                        Optional<BigDecimal> monthly, Optional<BigDecimal> annually) {
+                        Optional<BigDecimal> monthly, Optional<BigDecimal> yearly) {
         this.daily = daily;
         this.weekly = weekly;
         this.monthly = monthly;
-        this.annually = annually;
+        this.yearly = yearly;
     }
 }
