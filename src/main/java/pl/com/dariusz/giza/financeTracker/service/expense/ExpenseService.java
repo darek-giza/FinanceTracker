@@ -10,4 +10,6 @@ public interface ExpenseService {
     List<Expense> getUserExpenses(Budget budget);
 
     List<Expense> createExpense(List<Expense> expense, Budget budget);
+
+    void deleteExpense(Long id);
 }

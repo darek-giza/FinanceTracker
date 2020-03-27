@@ -52,6 +52,11 @@ public class ExpenseController {
 
         return expense;
     }
+    @DeleteMapping
+    public Expense deleteExpense(@RequestBody Expense expense){
+        expenseService.deleteExpense(expense.getId());
+        return expense;
+    }
 
     public Budget getBudget() {
         final String userName = authenticationFacade.getAuthentication().getName();

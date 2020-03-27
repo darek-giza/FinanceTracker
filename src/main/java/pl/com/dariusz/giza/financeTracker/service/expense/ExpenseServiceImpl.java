@@ -36,11 +36,16 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         Integer idOfExpenseType = expenseTypeService.getIdOfExpenseType(budget, expense).get();
 
-        expense.stream().forEach(e->{
+        expense.stream().forEach(e -> {
             e.setBudget(budget);
             e.getExpenseType().setId(idOfExpenseType);
         });
         return expenseRepository.saveAll(expense);
+    }
+
+    @Override
+    public void deleteExpense(Long id) {
+        expenseRepository.deleteById(id);
     }
 
 }
