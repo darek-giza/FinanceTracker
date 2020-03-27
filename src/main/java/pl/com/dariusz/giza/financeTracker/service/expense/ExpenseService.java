@@ -2,6 +2,7 @@ package pl.com.dariusz.giza.financeTracker.service.expense;
 
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
+import pl.com.dariusz.giza.financeTracker.domain.budgets.ExpenseCount;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface ExpenseService {
     List<Expense> createExpense(List<Expense> expense, Budget budget);
 
     void deleteExpense(Long id);
+
+    ExpenseCount countExpense(Budget budget);
 }

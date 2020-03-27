@@ -3,10 +3,14 @@ package pl.com.dariusz.giza.financeTracker.service.expense;
 import org.springframework.stereotype.Service;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
+import pl.com.dariusz.giza.financeTracker.domain.budgets.ExpenseCount;
 import pl.com.dariusz.giza.financeTracker.repositories.ExpenseRepository;
 import pl.com.dariusz.giza.financeTracker.service.expenseType.ExpenseTypeService;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,4 +52,33 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenseRepository.deleteById(id);
     }
 
+    @Override
+    public ExpenseCount countExpense(Budget budget) {
+        final LocalDate now = LocalDate.now();
+
+        final List<Expense> byBudget_id = expenseRepository.getByBudget_Id(budget.getId());
+
+        final Optional<BigDecimal> daily = byBudget_id.stream()
+                .filter(e -> e.getDate().compareTo(now) == 0)
+                .map(e -> e.getAmount())
+                .reduce(BigDecimal::add);
+
+        final Optional<BigDecimal> weekly = byBudget_id.stream()
+                .filter(e -> e.getDate().plusDays(7).compareTo(now) > 0)
+                .map(e -> e.getAmount())
+                .reduce(BigDecimal::add);
+
+        final Optional<BigDecimal> monthly = byBudget_id.stream()
+                .filter(e -> e.getDate().plusDays(30).compareTo(now) > 0)
+                .map(e -> e.getAmount())
+                .reduce(BigDecimal::add);
+
+        final Optional<BigDecimal> annually = byBudget_id.stream()
+                .map(e -> e.getAmount())
+                .reduce(BigDecimal::add);
+
+        return new ExpenseCount(daily, weekly, monthly, annually);
+
+
+    }
 }
