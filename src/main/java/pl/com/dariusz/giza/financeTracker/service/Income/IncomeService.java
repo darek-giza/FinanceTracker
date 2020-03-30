@@ -2,6 +2,7 @@ package pl.com.dariusz.giza.financeTracker.service.Income;
 
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Income;
+import pl.com.dariusz.giza.financeTracker.domain.budgets.IncomesCount;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface IncomeService {
     List<Income> getUserIncomes(Budget budget);
 
     void deleteIncome(Long id);
+
+    IncomesCount countIncomes(Budget budget);
 }
