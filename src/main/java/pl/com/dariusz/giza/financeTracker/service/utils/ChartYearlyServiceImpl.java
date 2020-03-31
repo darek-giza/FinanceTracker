@@ -19,19 +19,13 @@ import java.util.List;
 @Service
 public class ChartYearlyServiceImpl implements ChartYearlyService {
 
-    public LocalDate now() {
-        return LocalDate.now();
-    }
-
     private final IncomeRepository incomeRepository;
     private final ExpenseRepository expenseRepository;
-    private final BudgetsRepository budgetsRepository;
 
     @Autowired
-    public ChartYearlyServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository, BudgetsRepository budgetsRepository) {
+    public ChartYearlyServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository) {
         this.incomeRepository = incomeRepository;
         this.expenseRepository = expenseRepository;
-        this.budgetsRepository = budgetsRepository;
     }
 
     @Override
@@ -50,32 +44,34 @@ public class ChartYearlyServiceImpl implements ChartYearlyService {
 
     public ChartYearly fillChartYearly(Budget budget, Integer month) {
 
+        BigDecimal incomes = reduceMonthlyIncomes(budget, month);
+        BigDecimal expenses = reduceMonthlyExpenses(budget, month);
+        BigDecimal budgetMonthly = incomes.subtract(expenses);
+
+        return new ChartYearly(getMonth(month), incomes, expenses, budgetMonthly);
+    }
+
+    public BigDecimal reduceMonthlyIncomes(Budget budget, Integer month) {
         final List<Income> incomes = incomeRepository.findByBudget_Id(budget.getId());
-        BigDecimal incomeMonthly = incomes.stream().filter(e -> e.getDate().getYear() == now().getYear())
+        return incomes.stream().filter(e -> e.getDate().getYear() == now().getYear())
                 .filter(e -> e.getDate().getMonth().getValue() == month)
-                .map(e -> e.getAmount())
+                .map(Income::getAmount)
                 .reduce(BigDecimal::add)
-                .get();
+                .orElse(BigDecimal.ZERO);
+    }
 
-        if (incomeMonthly == null) {
-            incomeMonthly = BigDecimal.ZERO;
-        }
-
-
+    public BigDecimal reduceMonthlyExpenses(Budget budget, Integer month) {
         final List<Expense> expense = expenseRepository.getByBudget_Id(budget.getId());
-        BigDecimal expenseMonthly = expense.stream().filter(e -> e.getDate().getYear() == now().getYear())
+        return expense.stream().filter(e -> e.getDate().getYear() == now().getYear())
                 .filter(e -> e.getDate().getMonth().getValue() == month)
                 .map(e -> e.getAmount())
                 .reduce(BigDecimal::add)
-                .get();
-
-        if (expenseMonthly == null) {
-            expenseMonthly = BigDecimal.ZERO;
-        }
-        final String monthName = Month.of(month).name();
-
-        final BigDecimal budgetMonthly = incomeMonthly.subtract(expenseMonthly);
-
-        return new ChartYearly(monthName, incomeMonthly, expenseMonthly, budgetMonthly);
+                .orElse(BigDecimal.ZERO);
+    }
+    public LocalDate now() {
+        return LocalDate.now();
+    }
+    public String getMonth(Integer month){
+        return Month.of(month).name();
     }
 }
