@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
-import pl.com.dariusz.giza.financeTracker.domain.budgets.ExpenseCount;
+import pl.com.dariusz.giza.financeTracker.domain.budgets.utils.ExpenseCount;
 import pl.com.dariusz.giza.financeTracker.security.AuthenticationFacade;
 import pl.com.dariusz.giza.financeTracker.service.expense.ExpenseService;
 import pl.com.dariusz.giza.financeTracker.service.user.UserService;

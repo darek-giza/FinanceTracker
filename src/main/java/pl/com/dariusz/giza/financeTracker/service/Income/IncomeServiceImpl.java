@@ -42,30 +42,4 @@ public class IncomeServiceImpl implements IncomeService {
         incomeRepository.deleteById(id);
     }
 
-    @Override
-    public IncomesCount countIncomes(Budget budget) {
-        final LocalDate now = LocalDate.now();
-
-        final List<Income> byBudget_id = incomeRepository.findByBudget_Id(budget.getId());
-
-        final BigDecimal weekly = byBudget_id.stream()
-                .filter(e -> e.getDate().plusDays(7).compareTo(now) >= 0)
-                .filter(e -> e.getDate().getYear() == now.getYear())
-                .filter(e -> e.getDate().getMonth() == now.getMonth())
-                .map(e -> e.getAmount())
-                .reduce(BigDecimal::add).get();
-
-        final BigDecimal monthly = byBudget_id.stream()
-                .filter(e -> e.getDate().getYear() == now.getYear())
-                .filter(e -> e.getDate().getMonth() == now.getMonth())
-                .map(e -> e.getAmount())
-                .reduce(BigDecimal::add).get();
-
-        final BigDecimal yearly = byBudget_id.stream()
-                .filter(e -> e.getDate().getYear() == now.getYear())
-                .map(e -> e.getAmount())
-                .reduce(BigDecimal::add).get();
-
-        return new IncomesCount(weekly, monthly, yearly);
-    }
 }
