@@ -10,16 +10,14 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-public class chartYearly {
-
-
+public class ChartYearly {
 
     private String name;
     private BigDecimal incomes;
     private BigDecimal expenses;
     private BigDecimal budget;
 
-    public chartYearly(String name, BigDecimal incomes, BigDecimal expenses,
+    public ChartYearly(String name, BigDecimal incomes, BigDecimal expenses,
                        BigDecimal budget) {
         this.name = name;
         this.incomes = incomes;
