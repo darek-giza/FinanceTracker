@@ -10,7 +10,7 @@ import pl.com.dariusz.giza.financeTracker.security.AuthenticationFacade;
 import pl.com.dariusz.giza.financeTracker.service.user.UserService;
 import pl.com.dariusz.giza.financeTracker.service.utils.ChartYearlyService;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -28,7 +28,7 @@ public class ChartController {
     }
 
     @GetMapping(path = "/api/chartYearly")
-    public Map<Integer, ChartYearly> fillChartYearly() {
+    public List<ChartYearly> fillChartYearly() {
         return chartYearlyService.generateChart(getBudget(), "2020");
     }
 

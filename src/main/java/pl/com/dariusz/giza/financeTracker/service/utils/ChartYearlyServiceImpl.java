@@ -13,9 +13,8 @@ import pl.com.dariusz.giza.financeTracker.repositories.IncomeRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ChartYearlyServiceImpl implements ChartYearlyService {
@@ -36,21 +35,18 @@ public class ChartYearlyServiceImpl implements ChartYearlyService {
     }
 
     @Override
-    public Map<Integer, ChartYearly> generateChart(Budget budget, String year) {
+    public List<ChartYearly> generateChart(Budget budget, String year) {
 
-        Map<Integer, ChartYearly> yearlyMap = new HashMap<>();
+        List<ChartYearly> yearlyList = new ArrayList<>();
 
         for (Integer month = 1; month < 13; month++) {
 
             final ChartYearly monthly = fillChartYearly(budget, month);
 
-            yearlyMap.put(month, monthly);
-
+            yearlyList.add(monthly);
         }
-
-        return yearlyMap;
+        return yearlyList;
     }
-
 
     public ChartYearly fillChartYearly(Budget budget, Integer month) {
 

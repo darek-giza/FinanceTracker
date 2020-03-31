@@ -3,8 +3,8 @@ package pl.com.dariusz.giza.financeTracker.service.utils;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.utils.ChartYearly;
 
-import java.util.Map;
+import java.util.List;
 
 public interface ChartYearlyService {
-    Map<Integer, ChartYearly> generateChart(Budget budget, String year);
+    List<ChartYearly> generateChart(Budget budget, String year);
 }
