@@ -11,7 +11,7 @@ public interface IncomeService {
 
     List<Income> getUserIncomes(Budget budget);
 
-    void deleteIncome(Long id);
+    void deleteIncome(Income income, Budget budget);
 
 
 }

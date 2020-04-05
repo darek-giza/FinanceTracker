@@ -38,38 +38,57 @@ public class BudgetServiceImpl implements BudgetService {
         return budgetsRepository.findAll();
     }
 
-
     @Override
     public Budget increaseBudget(Budget budget, List<Income> income) {
-        final Optional<Budget> currentBudget = currentBudget(budget);
-        BigDecimal balance = currentBudget.get().getBalance();
+        final BigDecimal balance = getBalance(budget);
         checkBalance(balance);
         BigDecimal increase = balance.add(income
                 .stream()
                 .map(i -> i.getAmount())
                 .reduce(BigDecimal::add)
                 .get());
-        currentBudget.get().setBalance(increase);
-        return budgetsRepository.save(currentBudget.get());
+        currentBudget(budget).get().setBalance(increase);
+        return budgetsRepository.save(currentBudget(budget).get());
 
     }
 
     @Override
     public Budget reduceBudget(Budget budget, List<Expense> expense) {
-        final Optional<Budget> currentBudget = currentBudget(budget);
-        BigDecimal balance = currentBudget(budget).get().getBalance();
+        final BigDecimal balance = getBalance(budget);
         checkBalance(balance);
         BigDecimal reduce = balance.subtract(expense
                 .stream().map(e -> e.getAmount())
                 .reduce(BigDecimal::add)
                 .get());
-        currentBudget.get().setBalance(reduce);
-        return budgetsRepository.save(currentBudget.get());
+        currentBudget(budget).get().setBalance(reduce);
+        return budgetsRepository.save(currentBudget(budget).get());
+    }
+
+    @Override
+    public Budget deleteExpense(Budget budget, Expense expense) {
+        final BigDecimal balance = getBalance(budget);
+        checkBalance(balance);
+        final BigDecimal increase = balance.add(expense.getAmount());
+        currentBudget(budget).get().setBalance(increase);
+        return budgetsRepository.save(currentBudget(budget).get());
+    }
+
+    @Override
+    public Budget deleteIncome(Budget budget, Income income) {
+        final BigDecimal balance = getBalance(budget);
+        checkBalance(balance);
+        final BigDecimal subtract = balance.subtract(income.getAmount());
+        currentBudget(budget).get().setBalance(subtract);
+        return budgetsRepository.save(currentBudget(budget).get());
     }
 
     public Optional<Budget> currentBudget(Budget budget) {
         return budgetsRepository.findById(budget.getId());
 
+    }
+
+    public BigDecimal getBalance(Budget budget) {
+        return budgetsRepository.findById(budget.getId()).get().getBalance();
     }
 
     public BigDecimal checkBalance(BigDecimal balance) {

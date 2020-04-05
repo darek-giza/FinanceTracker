@@ -3,11 +3,9 @@ package pl.com.dariusz.giza.financeTracker.service.Income;
 import org.springframework.stereotype.Service;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Income;
-import pl.com.dariusz.giza.financeTracker.domain.budgets.IncomesCount;
 import pl.com.dariusz.giza.financeTracker.repositories.IncomeRepository;
+import pl.com.dariusz.giza.financeTracker.service.budget.BudgetService;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,9 +13,11 @@ import java.util.stream.Collectors;
 public class IncomeServiceImpl implements IncomeService {
 
     private final IncomeRepository incomeRepository;
+    private final BudgetService budgetService;
 
-    public IncomeServiceImpl(IncomeRepository incomeRepository) {
+    public IncomeServiceImpl(IncomeRepository incomeRepository, BudgetService budgetService) {
         this.incomeRepository = incomeRepository;
+        this.budgetService = budgetService;
     }
 
     @Override
@@ -38,8 +38,9 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public void deleteIncome(Long id) {
-        incomeRepository.deleteById(id);
+    public void deleteIncome(Income income, Budget budget) {
+        budgetService.deleteIncome(budget, income);
+        incomeRepository.deleteById(income.getId());
     }
 
 }

@@ -49,7 +49,7 @@ public class IncomeController {
 
     @DeleteMapping
     public Income deleteIncome(@RequestBody Income income) {
-        incomeService.deleteIncome(income.getId());
+        incomeService.deleteIncome(income, getBudget());
         return income;
     }
 

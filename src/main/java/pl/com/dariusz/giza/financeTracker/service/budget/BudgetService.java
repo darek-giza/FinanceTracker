@@ -16,5 +16,9 @@ public interface BudgetService {
 
     Budget increaseBudget(Budget budget, List<Income> income);
 
-    Budget reduceBudget(Budget budget, List<Expense> expense);
+    Budget reduceBudget(Budget budget, List<Expense> expenses);
+
+    Budget deleteExpense(Budget budget, Expense expense);
+
+    Budget deleteIncome(Budget budget, Income income);
 }

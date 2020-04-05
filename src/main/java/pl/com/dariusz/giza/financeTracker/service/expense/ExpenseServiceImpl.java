@@ -10,7 +10,6 @@ import pl.com.dariusz.giza.financeTracker.service.expenseType.ExpenseTypeService
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,17 +50,11 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public void deleteExpense(Long id, Budget budget) {
-        Expense byId = expenseRepository.findById(id).get();
+    public void deleteExpense(Expense expense, Budget budget) {
 
-        final List<Expense> expenses = new ArrayList<>();
+        budgetService.deleteExpense(budget, expense);
 
-        expenses.add(byId);
-
-        budgetService.reduceBudget(budget, expenses);
-
-
-        expenseRepository.deleteById(id);
+        expenseRepository.deleteById(expense.getId());
     }
 
     @Override
