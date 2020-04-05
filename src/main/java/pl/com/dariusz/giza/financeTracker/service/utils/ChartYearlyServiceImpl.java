@@ -21,19 +21,21 @@ public class ChartYearlyServiceImpl implements ChartYearlyService {
 
     private final IncomeRepository incomeRepository;
     private final ExpenseRepository expenseRepository;
+    private final BudgetsRepository budgetsRepository;
 
     @Autowired
-    public ChartYearlyServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository) {
+    public ChartYearlyServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository, BudgetsRepository budgetsRepository) {
         this.incomeRepository = incomeRepository;
         this.expenseRepository = expenseRepository;
+        this.budgetsRepository = budgetsRepository;
     }
 
     @Override
-    public List<ChartYearly> generateChart(Budget budget, String year) {
+    public List<ChartYearly> generateYearlyChart(Budget budget) {
 
         List<ChartYearly> yearlyList = new ArrayList<>();
 
-        for (Integer month = 1; month < 13; month++) {
+        for (int month = 1; month < 13; month++) {
 
             final ChartYearly monthly = fillChartYearly(budget, month);
 
@@ -43,9 +45,9 @@ public class ChartYearlyServiceImpl implements ChartYearlyService {
     }
 
     public ChartYearly fillChartYearly(Budget budget, Integer month) {
-
         BigDecimal incomes = reduceMonthlyIncomes(budget, month);
         BigDecimal expenses = reduceMonthlyExpenses(budget, month);
+
         BigDecimal budgetMonthly = incomes.subtract(expenses);
 
         return new ChartYearly(getMonth(month), incomes, expenses, budgetMonthly);
@@ -68,10 +70,12 @@ public class ChartYearlyServiceImpl implements ChartYearlyService {
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
     }
+
     public LocalDate now() {
         return LocalDate.now();
     }
-    public String getMonth(Integer month){
+
+    public String getMonth(Integer month) {
         return Month.of(month).name();
     }
 }

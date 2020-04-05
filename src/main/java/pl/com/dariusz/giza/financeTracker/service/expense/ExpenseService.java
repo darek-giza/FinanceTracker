@@ -12,7 +12,7 @@ public interface ExpenseService {
 
     List<Expense> createExpense(List<Expense> expense, Budget budget);
 
-    void deleteExpense(Long id);
+    void deleteExpense(Long id, Budget budget);
 
     ExpenseCount countExpense(Budget budget);
 }

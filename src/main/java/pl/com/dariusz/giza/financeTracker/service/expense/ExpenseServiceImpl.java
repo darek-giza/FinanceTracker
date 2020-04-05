@@ -5,10 +5,12 @@ import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.utils.ExpenseCount;
 import pl.com.dariusz.giza.financeTracker.repositories.ExpenseRepository;
+import pl.com.dariusz.giza.financeTracker.service.budget.BudgetService;
 import pl.com.dariusz.giza.financeTracker.service.expenseType.ExpenseTypeService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,11 +20,12 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final ExpenseTypeService expenseTypeService;
+    private final BudgetService budgetService;
 
-    public ExpenseServiceImpl(ExpenseRepository expenseRepository, ExpenseTypeService expenseTypeService) {
+    public ExpenseServiceImpl(ExpenseRepository expenseRepository, ExpenseTypeService expenseTypeService, BudgetService budgetService) {
         this.expenseRepository = expenseRepository;
-
         this.expenseTypeService = expenseTypeService;
+        this.budgetService = budgetService;
     }
 
     @Override
@@ -48,7 +51,16 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public void deleteExpense(Long id) {
+    public void deleteExpense(Long id, Budget budget) {
+        Expense byId = expenseRepository.findById(id).get();
+
+        final List<Expense> expenses = new ArrayList<>();
+
+        expenses.add(byId);
+
+        budgetService.reduceBudget(budget, expenses);
+
+
         expenseRepository.deleteById(id);
     }
 

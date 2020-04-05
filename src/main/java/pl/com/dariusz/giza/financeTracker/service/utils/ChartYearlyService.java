@@ -6,5 +6,5 @@ import pl.com.dariusz.giza.financeTracker.domain.budgets.utils.ChartYearly;
 import java.util.List;
 
 public interface ChartYearlyService {
-    List<ChartYearly> generateChart(Budget budget, String year);
+    List<ChartYearly> generateYearlyChart(Budget budget);
 }

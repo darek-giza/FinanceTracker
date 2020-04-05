@@ -54,7 +54,7 @@ public class ExpenseController {
     }
     @DeleteMapping
     public Expense deleteExpense(@RequestBody Expense expense){
-        expenseService.deleteExpense(expense.getId());
+        expenseService.deleteExpense(expense.getId(),getBudget());
         return expense;
     }
 

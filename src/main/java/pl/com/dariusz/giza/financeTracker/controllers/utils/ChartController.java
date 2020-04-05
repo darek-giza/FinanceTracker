@@ -29,7 +29,7 @@ public class ChartController {
 
     @GetMapping(path = "/api/chartYearly")
     public List<ChartYearly> fillChartYearly() {
-        return chartYearlyService.generateChart(getBudget(), "2020");
+        return chartYearlyService.generateYearlyChart(getBudget());
     }
 
     public Budget getBudget() {
