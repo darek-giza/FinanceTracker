@@ -6,20 +6,19 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Optional;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class ExpenseCount implements Serializable {
 
-    private Optional<BigDecimal> daily;
-    private Optional<BigDecimal> weekly;
-    private Optional<BigDecimal> monthly;
-    private Optional<BigDecimal> yearly;
+    private BigDecimal daily;
+    private BigDecimal weekly;
+    private BigDecimal monthly;
+    private BigDecimal yearly;
 
-    public ExpenseCount(Optional<BigDecimal> daily, Optional<BigDecimal> weekly,
-                        Optional<BigDecimal> monthly, Optional<BigDecimal> yearly) {
+    public ExpenseCount(BigDecimal daily, BigDecimal weekly,
+                        BigDecimal monthly, BigDecimal yearly) {
         this.daily = daily;
         this.weekly = weekly;
         this.monthly = monthly;

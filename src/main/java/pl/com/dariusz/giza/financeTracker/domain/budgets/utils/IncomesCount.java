@@ -1,4 +1,4 @@
-package pl.com.dariusz.giza.financeTracker.domain.budgets;
+package pl.com.dariusz.giza.financeTracker.domain.budgets.utils;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
