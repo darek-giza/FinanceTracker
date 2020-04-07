@@ -15,6 +15,7 @@ import pl.com.dariusz.giza.financeTracker.repositories.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,8 +71,8 @@ public class BootStrapData {
 
     public List<Income> fillIncomes(Budget budget) {
         List<Income> incomeList = new ArrayList<>();
-        Income incomes1 = new Income(new BigDecimal(5000), "Salary1", LocalDate.now(), budget);
-        Income incomes2 = new Income(new BigDecimal(3000), "Salary2", LocalDate.now(), budget);
+        Income incomes1 = new Income(new BigDecimal(5000), "Salary1", LocalDateTime.now(), budget);
+        Income incomes2 = new Income(new BigDecimal(3000), "Salary2", LocalDateTime.now(), budget);
         incomeList.add(incomes1);
         incomeList.add(incomes2);
         return incomeList;
@@ -81,18 +82,18 @@ public class BootStrapData {
         final List<ExpenseType> type = expenseTypeRepository.findAll();
 
         List<Expense> expenseList = new ArrayList<>();
-        Expense expense1 = new Expense(type.get(0), new BigDecimal(200), "Books", LocalDate.now(), budget);
-        Expense expense2 = new Expense(type.get(1), new BigDecimal(100), "Diner", LocalDate.now(), budget);
-        Expense expense3 = new Expense(type.get(1), new BigDecimal(150), "Lunch", LocalDate.now(), budget);
-        Expense expense4 = new Expense(type.get(2), new BigDecimal(100), "T-shirt", LocalDate.now(), budget);
-        Expense expense5 = new Expense(type.get(3), new BigDecimal(50), "Taxi", LocalDate.now(), budget);
-        Expense expense6 = new Expense(type.get(3), new BigDecimal(20), "Bus", LocalDate.now(), budget);
-        Expense expense7 = new Expense(type.get(4), new BigDecimal(100), "Party", LocalDate.now(), budget);
-        Expense expense8 = new Expense(type.get(5), new BigDecimal(100), "Survey", LocalDate.now(), budget);
-        Expense expense9 = new Expense(type.get(6), new BigDecimal(100), "Electricity", LocalDate.now(), budget);
-        Expense expense10 = new Expense(type.get(7), new BigDecimal(20), "Cosmetics", LocalDate.now(), budget);
-        Expense expense11 = new Expense(type.get(9), new BigDecimal(100), "Other", LocalDate.now(), budget);
-        Expense expense12 = new Expense(type.get(8), new BigDecimal(100), "Home loan", LocalDate.now(), budget);
+        Expense expense1 = new Expense(type.get(0), new BigDecimal(200), "Books", LocalDateTime.now(), budget);
+        Expense expense2 = new Expense(type.get(1), new BigDecimal(100), "Diner", LocalDateTime.now(), budget);
+        Expense expense3 = new Expense(type.get(1), new BigDecimal(150), "Lunch", LocalDateTime.now(), budget);
+        Expense expense4 = new Expense(type.get(2), new BigDecimal(100), "T-shirt", LocalDateTime.now(), budget);
+        Expense expense5 = new Expense(type.get(3), new BigDecimal(50), "Taxi", LocalDateTime.now(), budget);
+        Expense expense6 = new Expense(type.get(3), new BigDecimal(20), "Bus", LocalDateTime.now(), budget);
+        Expense expense7 = new Expense(type.get(4), new BigDecimal(100), "Party", LocalDateTime.now(), budget);
+        Expense expense8 = new Expense(type.get(5), new BigDecimal(100), "Survey", LocalDateTime.now(), budget);
+        Expense expense9 = new Expense(type.get(6), new BigDecimal(100), "Electricity", LocalDateTime.now(), budget);
+        Expense expense10 = new Expense(type.get(7), new BigDecimal(20), "Cosmetics", LocalDateTime.now(), budget);
+        Expense expense11 = new Expense(type.get(9), new BigDecimal(100), "Other", LocalDateTime.now(), budget);
+        Expense expense12 = new Expense(type.get(8), new BigDecimal(100), "Home loan", LocalDateTime.now(), budget);
         expenseList.add(expense1);
         expenseList.add(expense2);
         expenseList.add(expense3);

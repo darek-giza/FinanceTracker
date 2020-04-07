@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -28,14 +29,14 @@ public class Expense implements Serializable {
 
     private String description;
 
-    private LocalDate date;
+    private LocalDateTime date;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn
     private Budget budget;
 
-    public Expense(ExpenseType expenseType, BigDecimal amount, String description, LocalDate date, Budget budget) {
+    public Expense(ExpenseType expenseType, BigDecimal amount, String description, LocalDateTime date, Budget budget) {
         this.expenseType = expenseType;
         this.amount = amount;
         this.description = description;

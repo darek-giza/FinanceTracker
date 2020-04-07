@@ -7,7 +7,7 @@ import pl.com.dariusz.giza.financeTracker.domain.budgets.utils.ExpenseCount;
 import pl.com.dariusz.giza.financeTracker.repositories.ExpenseRepository;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,7 +21,7 @@ public class CountExpenseServiceImpl implements CountExpenseService {
 
     @Override
     public ExpenseCount countExpense(Budget budget) {
-        final LocalDate now = LocalDate.now();
+        final LocalDateTime now = LocalDateTime.now();
 
         final List<Expense> byBudget_id = expenseRepository.getByBudget_Id(budget.getId());
 

@@ -7,7 +7,7 @@ import pl.com.dariusz.giza.financeTracker.domain.budgets.utils.IncomesCount;
 import pl.com.dariusz.giza.financeTracker.repositories.IncomeRepository;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,7 +21,7 @@ public class CountIncomesServiceImpl implements CountIncomesService {
 
     @Override
     public IncomesCount countIncomes(Budget budget) {
-        final LocalDate now = LocalDate.now();
+        final LocalDateTime now = LocalDateTime.now();
 
         final List<Income> byBudget_id = incomeRepository.findByBudget_Id(budget.getId());
 
