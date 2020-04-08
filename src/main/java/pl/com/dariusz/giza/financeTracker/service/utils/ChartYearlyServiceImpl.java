@@ -6,7 +6,6 @@ import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Income;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.utils.ChartYearly;
-import pl.com.dariusz.giza.financeTracker.repositories.BudgetsRepository;
 import pl.com.dariusz.giza.financeTracker.repositories.ExpenseRepository;
 import pl.com.dariusz.giza.financeTracker.repositories.IncomeRepository;
 
@@ -21,13 +20,11 @@ public class ChartYearlyServiceImpl implements ChartYearlyService {
 
     private final IncomeRepository incomeRepository;
     private final ExpenseRepository expenseRepository;
-    private final BudgetsRepository budgetsRepository;
 
     @Autowired
-    public ChartYearlyServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository, BudgetsRepository budgetsRepository) {
+    public ChartYearlyServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository) {
         this.incomeRepository = incomeRepository;
         this.expenseRepository = expenseRepository;
-        this.budgetsRepository = budgetsRepository;
     }
 
     @Override
