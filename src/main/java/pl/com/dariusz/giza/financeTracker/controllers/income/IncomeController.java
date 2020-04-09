@@ -42,8 +42,9 @@ public class IncomeController {
     @ResponseStatus(HttpStatus.CREATED)
     public List<Income> saveIncome(@RequestBody List<Income> income) {
         final Budget budget = getBudget();
-        budgetService.increaseBudget(budget, income);
         incomeService.createIncome(income, budget);
+        budgetService.increaseBudget(budget, income);
+
         return income;
     }
 

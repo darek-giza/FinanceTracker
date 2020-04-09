@@ -46,8 +46,8 @@ public class ExpenseController {
     public List<Expense> saveExpense(@RequestBody List<Expense> expense) {
         final Budget budget = getBudget();
 
-        budgetService.reduceBudget(budget, expense);
         expenseService.createExpense(expense, budget);
+        budgetService.reduceBudget(budget, expense);
         expenseTypeService.getIdOfExpenseType(budget, expense);
 
         return expense;
