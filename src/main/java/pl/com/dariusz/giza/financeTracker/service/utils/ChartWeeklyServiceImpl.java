@@ -34,51 +34,45 @@ public class ChartWeeklyServiceImpl implements ChartWeeklyService {
         List<ChartWeekly> weeklyChart = new ArrayList<>();
 
         for (; day >= 0; day--) {
-            final int dayOfMonth = now().getDayOfMonth() - day;
-            final ChartWeekly chartWeekly = fillChart(budget, dayOfMonth);
-            chartWeekly.setName(now().minusDays(day).format(formatter));
+            LocalDateTime date = now().minusDays(day);
+            final ChartWeekly chartWeekly = fillChart(budget, date);
+            chartWeekly.setName(date.format(formatter));
             weeklyChart.add(chartWeekly);
         }
         return weeklyChart;
     }
 
-
-    public ChartWeekly fillChart(Budget budget, int day) {
-        final BigDecimal income = reduceIncomes(budget.getId(), day);
-        final BigDecimal expense = reduceExpenses(budget.getId(), day);
+    public ChartWeekly fillChart(Budget budget, LocalDateTime date) {
+        final BigDecimal income = reduceIncomes(budget.getId(), date);
+        final BigDecimal expense = reduceExpenses(budget.getId(), date);
         final BigDecimal amount = income.subtract(expense);
         return new ChartWeekly(null, income, expense, amount);
     }
 
-    public BigDecimal reduceIncomes(Long id, int day) {
-        return getIncomes(id).stream()
-                .filter(e -> e.getDate().getDayOfMonth() == day)
+    public BigDecimal reduceIncomes(Long id, LocalDateTime date) {
+        return getIncomes(id, date).stream()
+                .filter(e -> e.getDate().getDayOfYear() == date.getDayOfYear())
                 .map(Income::getAmount)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
     }
 
-    public BigDecimal reduceExpenses(Long id, int day) {
-        return getExpenses(id).stream()
-                .filter(e -> e.getDate().getDayOfMonth() == day)
+    public BigDecimal reduceExpenses(Long id, LocalDateTime date) {
+        return getExpenses(id, date).stream()
+                .filter(e -> e.getDate().getDayOfYear() == date.getDayOfYear())
                 .map(Expense::getAmount)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
     }
 
-    public List<Income> getIncomes(Long id) {
-        return incomeRepository.findIncomesByBudget_IdAndDateBetween(id, lastSevenDay(), now());
+    public List<Income> getIncomes(Long id, LocalDateTime date) {
+        return incomeRepository.findIncomesByBudget_IdAndDateBetween(id, date.minusDays(1), date);
     }
 
-    public List<Expense> getExpenses(Long id) {
-        return expenseRepository.getByBudget_IdAndDateBetween(id, lastSevenDay(), now());
+    public List<Expense> getExpenses(Long id, LocalDateTime date) {
+        return expenseRepository.getByBudget_IdAndDateBetween(id, date.minusDays(1), date);
     }
-
     public LocalDateTime now() {
         return LocalDateTime.now();
-    }
-
-    public LocalDateTime lastSevenDay() {
-        return now().minusDays(7);
     }
 }
