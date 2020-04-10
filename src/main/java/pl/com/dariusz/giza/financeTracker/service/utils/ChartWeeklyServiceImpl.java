@@ -35,7 +35,6 @@ public class ChartWeeklyServiceImpl implements ChartWeeklyService {
 
     @Override
     public List<ChartWeekly> generateChartWeekly(Budget budget, int day) {
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         List<ChartWeekly> weeklyChart = new ArrayList<>();
         BigDecimal amount;
         for (int i = 0; i <= day; i++) {
@@ -60,7 +59,7 @@ public class ChartWeeklyServiceImpl implements ChartWeeklyService {
         final BigDecimal incomeTomorrow = reduceIncomes(budget.getId(), date.plusDays(1));
         final BigDecimal expenseTomorrow = reduceExpenses(budget.getId(), date.plusDays(1));
         final BigDecimal balance = amount.subtract(incomeTomorrow).add(expenseTomorrow);
-        return new ChartWeekly(null, incomeToday, expenseToday, balance);
+        return new ChartWeekly(null, incomeToday, expenseToday.negate(), balance);
     }
 
     public BigDecimal reduceIncomes(Long id, LocalDateTime date) {
