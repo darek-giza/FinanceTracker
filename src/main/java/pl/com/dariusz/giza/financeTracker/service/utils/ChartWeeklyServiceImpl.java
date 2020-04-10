@@ -80,11 +80,11 @@ public class ChartWeeklyServiceImpl implements ChartWeeklyService {
     }
 
     public List<Income> getIncomes(Long id, LocalDateTime date) {
-        return incomeRepository.findIncomesByBudget_IdAndDateBetween(id, date.minusDays(1), date);
+        return incomeRepository.findIncomesByBudget_IdAndDateBetween(id, date.minusDays(1), date.plusDays(1));
     }
 
     public List<Expense> getExpenses(Long id, LocalDateTime date) {
-        return expenseRepository.getByBudget_IdAndDateBetween(id, date.minusDays(1), date);
+        return expenseRepository.getByBudget_IdAndDateBetween(id, date.minusDays(1), date.plusDays(1));
     }
 
     public BigDecimal getTodayAmount(Long id) {
