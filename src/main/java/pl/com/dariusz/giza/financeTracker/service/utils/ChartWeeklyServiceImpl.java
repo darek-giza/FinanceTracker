@@ -2,7 +2,6 @@ package pl.com.dariusz.giza.financeTracker.service.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Income;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.utils.ChartWeekly;
@@ -12,7 +11,6 @@ import pl.com.dariusz.giza.financeTracker.repositories.IncomeRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -26,7 +24,8 @@ public class ChartWeeklyServiceImpl implements ChartWeeklyService {
     private final BudgetsRepository budgetsRepository;
 
     @Autowired
-    public ChartWeeklyServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository, BudgetsRepository budgetsRepository) {
+    public ChartWeeklyServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository,
+                                  BudgetsRepository budgetsRepository) {
         this.incomeRepository = incomeRepository;
         this.expenseRepository = expenseRepository;
         this.budgetsRepository = budgetsRepository;
@@ -34,32 +33,32 @@ public class ChartWeeklyServiceImpl implements ChartWeeklyService {
 
 
     @Override
-    public List<ChartWeekly> generateChartWeekly(Budget budget, int day) {
+    public List<ChartWeekly> generateChartWeekly(Long id, int day) {
         List<ChartWeekly> weeklyChart = new ArrayList<>();
         BigDecimal amount;
+        LocalDateTime date;
         for (int i = 0; i <= day; i++) {
-            LocalDateTime date = now().minusDays(i);
+            date = now().minusDays(i);
             if (i == 0) {
-                amount = getTodayAmount(budget.getId());
+                amount = getTodayAmount(id);
             } else {
                 amount = weeklyChart.get(i - 1).getBudget();
             }
-            final ChartWeekly chartWeekly = fillChart(budget, date, amount);
-            chartWeekly.setName(date.toLocalDate());
-            weeklyChart.add(chartWeekly);
+            final ChartWeekly weekly = fillChart(id, date, amount);
+            weeklyChart.add(weekly);
         }
         return weeklyChart.stream()
-                .sorted(Comparator.comparing(ChartWeekly::getName))
+                .sorted(Comparator.comparing(ChartWeekly::getDate))
                 .collect(Collectors.toList());
     }
 
-    public ChartWeekly fillChart(Budget budget, LocalDateTime date, BigDecimal amount) {
-        final BigDecimal incomeToday = reduceIncomes(budget.getId(), date);
-        final BigDecimal expenseToday = reduceExpenses(budget.getId(), date);
-        final BigDecimal incomeTomorrow = reduceIncomes(budget.getId(), date.plusDays(1));
-        final BigDecimal expenseTomorrow = reduceExpenses(budget.getId(), date.plusDays(1));
+    public ChartWeekly fillChart(Long id, LocalDateTime date, BigDecimal amount) {
+        final BigDecimal incomeToday = reduceIncomes(id, date);
+        final BigDecimal expenseToday = reduceExpenses(id, date);
+        final BigDecimal incomeTomorrow = reduceIncomes(id, date.plusDays(1));
+        final BigDecimal expenseTomorrow = reduceExpenses(id, date.plusDays(1));
         final BigDecimal balance = amount.subtract(incomeTomorrow).add(expenseTomorrow);
-        return new ChartWeekly(null, incomeToday, expenseToday.negate(), balance);
+        return new ChartWeekly(setName(date), date, incomeToday, expenseToday.negate(), balance);
     }
 
     public BigDecimal reduceIncomes(Long id, LocalDateTime date) {
@@ -84,6 +83,12 @@ public class ChartWeeklyServiceImpl implements ChartWeeklyService {
 
     public List<Expense> getExpenses(Long id, LocalDateTime date) {
         return expenseRepository.getByBudget_IdAndDateBetween(id, date.minusDays(1), date.plusDays(1));
+    }
+
+    public String setName(LocalDateTime date) {
+        int dayOfMonth = date.getDayOfMonth();
+        final String month = String.valueOf(date.getMonth()).substring(0, 3);
+        return dayOfMonth + " " + month;
     }
 
     public BigDecimal getTodayAmount(Long id) {

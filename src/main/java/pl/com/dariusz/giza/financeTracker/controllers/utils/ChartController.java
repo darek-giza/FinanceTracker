@@ -33,12 +33,12 @@ public class ChartController {
 
     @GetMapping(path = "/api/chartYearly")
     public List<ChartYearly> fillChartYearly() {
-        return chartYearlyService.generateYearlyChart(getBudget());
+        return chartYearlyService.generateYearlyChart(getBudget().getId());
     }
 
     @GetMapping(path = "/api/chartWeekly")
     public List<ChartWeekly> fillChartWeekly() {
-        return chartWeeklyService.generateChartWeekly(getBudget(),6);
+        return chartWeeklyService.generateChartWeekly(getBudget().getId(), 6);
     }
 
     public Budget getBudget() {

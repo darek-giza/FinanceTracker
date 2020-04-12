@@ -5,20 +5,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class ChartWeekly {
 
-        private LocalDate name;
-        private BigDecimal incomes;
-        private BigDecimal expenses;
-        private BigDecimal budget;
+    private String name;
+    private LocalDateTime date;
+    private BigDecimal incomes;
+    private BigDecimal expenses;
+    private BigDecimal budget;
 
-    public ChartWeekly(LocalDate name, BigDecimal incomes, BigDecimal expenses, BigDecimal budget) {
+    public ChartWeekly(String name, LocalDateTime date, BigDecimal incomes, BigDecimal expenses, BigDecimal budget) {
         this.name = name;
+        this.date = date;
         this.incomes = incomes;
         this.expenses = expenses;
         this.budget = budget;

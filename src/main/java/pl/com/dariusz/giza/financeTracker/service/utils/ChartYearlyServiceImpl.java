@@ -2,7 +2,6 @@ package pl.com.dariusz.giza.financeTracker.service.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.com.dariusz.giza.financeTracker.domain.budgets.Budget;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Expense;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.Income;
 import pl.com.dariusz.giza.financeTracker.domain.budgets.utils.ChartYearly;
@@ -20,6 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class ChartYearlyServiceImpl implements ChartYearlyService {
 
+
     private final IncomeRepository incomeRepository;
     private final ExpenseRepository expenseRepository;
     private final BudgetsRepository budgetsRepository;
@@ -32,22 +32,21 @@ public class ChartYearlyServiceImpl implements ChartYearlyService {
     }
 
     @Override
-    public List<ChartYearly> generateYearlyChart(Budget budget) {
-
+    public List<ChartYearly> generateYearlyChart(Long id) {
         List<ChartYearly> yearlyList = new ArrayList<>();
-
         BigDecimal amount;
+        LocalDateTime date;
+        ChartYearly monthly;
 
         for (int i = 0; i < 12; i++) {
-            final LocalDateTime date = now().minusMonths(i);
+            date = now().minusMonths(i);
 
             if (i == 0) {
-                amount = getTodayAmount(budget.getId());
+                amount = getTodayAmount(id);
             } else {
                 amount = yearlyList.get(i - 1).getBudget();
             }
-
-            final ChartYearly monthly = fillChartYearly(budget, date, amount);
+            monthly = fillChartYearly(id, date, amount);
 
             yearlyList.add(monthly);
         }
@@ -56,37 +55,35 @@ public class ChartYearlyServiceImpl implements ChartYearlyService {
                 .collect(Collectors.toList());
     }
 
-    public ChartYearly fillChartYearly(Budget budget, LocalDateTime date, BigDecimal amount) {
-        BigDecimal incomes = reduceMonthlyIncomes(budget, date);
-        BigDecimal expenses = reduceMonthlyExpenses(budget, date);
-        BigDecimal lastMonthIncomes = reduceMonthlyIncomes(budget, date.plusMonths(1));
-        BigDecimal lastMonthExpenses = reduceMonthlyExpenses(budget, date.plusMonths(1));
+    public ChartYearly fillChartYearly(Long id, LocalDateTime date, BigDecimal amount) {
+        final BigDecimal incomes = reduceMonthlyIncomes(id, date);
+        final BigDecimal expenses = reduceMonthlyExpenses(id, date);
+        final BigDecimal lastMonthIncomes = reduceMonthlyIncomes(id, date.plusMonths(1));
+        final BigDecimal lastMonthExpenses = reduceMonthlyExpenses(id, date.plusMonths(1));
         final BigDecimal balance = amount.subtract(lastMonthIncomes).add(lastMonthExpenses);
-
-
         return new ChartYearly(setName(date), date, incomes, expenses.negate(), balance);
     }
 
-    public BigDecimal reduceMonthlyIncomes(Budget budget, LocalDateTime date) {
-        return getIncomes(budget, date).stream().filter(e -> e.getDate().getMonth() == date.getMonth())
+    public BigDecimal reduceMonthlyIncomes(Long id, LocalDateTime date) {
+        return getIncomes(id, date).stream().filter(e -> e.getDate().getMonth() == date.getMonth())
                 .map(Income::getAmount)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
     }
 
-    public BigDecimal reduceMonthlyExpenses(Budget budget, LocalDateTime date) {
-        return getExpenses(budget, date).stream().filter(e -> e.getDate().getMonth() == date.getMonth())
+    public BigDecimal reduceMonthlyExpenses(Long id, LocalDateTime date) {
+        return getExpenses(id, date).stream().filter(e -> e.getDate().getMonth() == date.getMonth())
                 .map(e -> e.getAmount())
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
     }
 
-    public List<Expense> getExpenses(Budget budget, LocalDateTime date) {
-        return expenseRepository.getByBudget_IdAndDateBetween(budget.getId(), date.minusMonths(1), date.plusMonths(1));
+    public List<Expense> getExpenses(Long id, LocalDateTime date) {
+        return expenseRepository.getByBudget_IdAndDateBetween(id, date.minusMonths(1), date.plusMonths(1));
     }
 
-    public List<Income> getIncomes(Budget budget, LocalDateTime date) {
-        return incomeRepository.findIncomesByBudget_IdAndDateBetween(budget.getId(), date.minusMonths(1), date.plusMonths(1));
+    public List<Income> getIncomes(Long id, LocalDateTime date) {
+        return incomeRepository.findIncomesByBudget_IdAndDateBetween(id, date.minusMonths(1), date.plusMonths(1));
     }
 
     public BigDecimal getTodayAmount(Long id) {
