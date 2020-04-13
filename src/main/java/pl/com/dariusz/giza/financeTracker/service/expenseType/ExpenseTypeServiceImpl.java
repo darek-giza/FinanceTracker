@@ -51,6 +51,11 @@ public class ExpenseTypeServiceImpl implements ExpenseTypeService {
     }
 
     @Override
+    public String getDescriptionById(Integer typeID) {
+        return expenseTypeRepository.findById(typeID).get().getDescription();
+    }
+
+    @Override
     public ExpenseType createExpenseType(ExpenseType expenseType, Budget budget) {
         expenseType.setBudgetId(budget.getId());
         return expenseTypeRepository.save(expenseType);
