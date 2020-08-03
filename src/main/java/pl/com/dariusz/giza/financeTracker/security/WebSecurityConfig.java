@@ -60,10 +60,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    private static final String[] AUTH_WHITELIST = {
+            "/authenticate",
+            "/login",
+            "/register",
+            "/v2/api-docs",
+            "/swagger-ui.html",
+            "/spring-security/swagger-ui.html",
+            "/spring-security/api/swagger-ui.html",
+            "favicon.ico",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/webjars/**"
+
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/authenticate", "/login", "/register").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil))
